@@ -1,4 +1,5 @@
 from app import db
+from app.userData import UserData
 from datetime import datetime
 
 
@@ -26,6 +27,42 @@ class Activity(db.Model):
         db.session.add(entry)
         db.session.commit()
         return 'success'
+
+    def dailyActivityFeedback(id):
+        user = UserData.getUser(id)
+        if (user is None):
+            print("user not found")
+        recommendedActivity = 0
+        age = user["age"]
+        if 0 < age <= 4:
+            recommendedActivity = 3
+        elif 4 < age <= 17:
+            recommendedActivity = 1
+        else:
+            recommendedActivity = 2.5
+        entryToday = Activity.query.filter(Activity.userid == id,
+                                           Activity.date == datetime.today().strftime('%Y-%m-%d')).first()
+        if (entryToday is None):
+            message = "You have not inputted active hours today."
+            result = -recommendedActivity
+        else:
+            activityToday = entryToday.hours
+            print("activity today: " + str(activityToday))
+            result = activityToday - recommendedActivity
+            if result < 0:
+                message = "Today you were active for " + str(abs(result)) + \
+                    " less hours than the recommended amount. Try to do better tomorrow!"
+            elif result == 0:
+                message = "Good job! You reached the exact recommended number of active hours today!"
+            else:
+                message = "Good job! You were active for " + \
+                    str(result) + " more hours than the recommended amount."
+        return {
+            'result': result,
+            'message': message,
+            'recommendation': "According to The WHO, your age group should try to reach " +
+            str(recommendedActivity) + " active hours a day."
+        }
 
     def serialize(self):
         return {

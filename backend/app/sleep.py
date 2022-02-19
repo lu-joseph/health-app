@@ -60,7 +60,7 @@ class Sleep(db.Model):
                 message = "Good job! You slept the exact recommended number of hours today!"
             else:
                 message = "Good job! You slept " + \
-                    str(result) + " more hours  than the recommended amount."
+                    str(result) + " more hours than the recommended amount."
         return {
             'result': result,
             'message': message,
