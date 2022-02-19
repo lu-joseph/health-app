@@ -36,9 +36,10 @@ def addUser():
         return str(e), 500
 
 
-@app.route("/api/userdata/<id>", methods=["GET", "PUT"])
-def getUserData(id):
-    user = UserData.getUser(id)
+@app.route("/api/userdata", methods=["GET", "PUT"])
+def getUserData():
+    userid = request.form.get("userid")
+    user = UserData.getUser(userid)
     if (user is None):
         return 'No user found', 204
 
@@ -54,7 +55,7 @@ def getUserData(id):
         height = request.form.get("height")
         age = request.form.get("age")
         try:
-            return UserData.updateUser(id, firstname, lastname, username, password, sex, weight, height, age)
+            return UserData.updateUser(userid, firstname, lastname, username, password, sex, weight, height, age)
         except Exception as e:
             return str(e), 500
     else:
@@ -67,7 +68,8 @@ def getUserData(id):
 
 @app.route("/api/activity/getEntries", methods=["GET"])
 def getActivityEntries():
-    entries = Activity.query.all()
+    userid = request.form.get("userid")
+    entries = Activity.query.filter(Activity.userid == userid).all()
     return json.dumps([e.serialize() for e in entries])
 
 
@@ -75,8 +77,9 @@ def getActivityEntries():
 def addActivityEntry():
     hours = request.form.get("hours")
     date = request.form.get("date")  # format must be yyyy-mm-dd
+    userid = request.form.get("userid")
     try:
-        (Activity.add_entry(hours, date))
+        (Activity.add_entry(userid, hours, date))
         return 'Entry was added', 200
 
     except Exception as e:
@@ -89,7 +92,8 @@ def addActivityEntry():
 
 @app.route("/api/sleep/getEntries", methods=["GET"])
 def getSleepEntries():
-    entries = Sleep.query.all()
+    userid = request.form.get("userid")
+    entries = Sleep.query.filter(Sleep.userid == userid).all()
     return json.dumps([e.serialize() for e in entries])
 
 
@@ -97,8 +101,9 @@ def getSleepEntries():
 def addSleepEntry():
     hours = request.form.get("hours")
     date = request.form.get("date")  # format must be yyyy-mm-dd
+    userid = request.form.get("userid")
     try:
-        (Sleep.add_entry(hours, date))
+        (Sleep.add_entry(userid, hours, date))
         return 'Entry was added', 200
 
     except Exception as e:
@@ -111,7 +116,8 @@ def addSleepEntry():
 
 @app.route("/api/water/getEntries", methods=["GET"])
 def getWaterEntries():
-    entries = Water.query.all()
+    userid = request.form.get("userid")
+    entries = Water.query.filter(Water.userid == userid).all()
     return json.dumps([e.serialize() for e in entries])
 
 
@@ -119,18 +125,20 @@ def getWaterEntries():
 def addWaterEntry():
     cups = request.form.get("cups")
     date = request.form.get("date")  # format must be yyyy-mm-dd
+    userid = request.form.get("userid")
     try:
-        (Water.add_entry(cups, date))
+        (Water.add_entry(userid, cups, date))
         return 'Entry was added', 200
 
     except Exception as e:
         return str(e), 500
 
 
-@app.route("/api/water/feedback/<id>", methods=["GET"])
-def getDailyWaterFeedback(id):
+@app.route("/api/water/feedback", methods=["GET"])
+def getDailyWaterFeedback():
+    userid = request.form.get("userid")
     try:
-        feedback = Water.dailyWaterFeedback(id)
+        feedback = Water.dailyWaterFeedback(userid)
         return feedback, 200
 
     except Exception as e:
@@ -143,7 +151,8 @@ def getDailyWaterFeedback(id):
 
 @app.route("/api/mood/getEntries", methods=["GET"])
 def getMoodEntries():
-    entries = Mood.query.all()
+    userid = request.form.get("userid")
+    entries = Mood.query.filter(Mood.userid == userid).all()
     return json.dumps([e.serialize() for e in entries])
 
 
@@ -151,8 +160,9 @@ def getMoodEntries():
 def addMoodEntry():
     score = request.form.get("score")  # must be between 1 and 5
     date = request.form.get("date")  # format must be yyyy-mm-dd
+    userid = request.form.get("userid")
     try:
-        (Mood.add_entry(score, date))
+        (Mood.add_entry(userid, score, date))
         return 'Entry was added', 200
 
     except Exception as e:

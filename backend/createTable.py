@@ -26,43 +26,49 @@ def createTable():
         """
         CREATE TABLE mood (
             id SERIAL PRIMARY KEY,
-            date DATE NOT NULL,
-            score INTEGER NOT NULL
+            date DATE NOT NULL UNIQUE,
+            score INTEGER NOT NULL,
+            userid INTEGER NOT NULL
         )
         """,
         """
         CREATE TABLE activity (
             id SERIAL PRIMARY KEY,
-            date DATE NOT NULL,
-            hours REAL NOT NULL
+            date DATE NOT NULL UNIQUE,
+            hours REAL NOT NULL,
+            userid INTEGER NOT NULL
         )
         """,
         """
         CREATE TABLE sleep (
             id SERIAL PRIMARY KEY,
-            date DATE NOT NULL,
-            hours REAL NOT NULL
+            date DATE NOT NULL UNIQUE,
+            hours REAL NOT NULL,
+            userid INTEGER NOT NULL
         )
         """,
         """
         CREATE TABLE food (
             id SERIAL PRIMARY KEY,
-            date DATE NOT NULL,
-            cals INTEGER NOT NULL
+            date DATE NOT NULL UNIQUE,
+            cals INTEGER NOT NULL,
+            userid INTEGER NOT NULL
         )
         """,
         """
         CREATE TABLE water (
             id SERIAL PRIMARY KEY,
-            date DATE NOT NULL,
-            cups INTEGER NOT NULL
+            date DATE NOT NULL UNIQUE,
+            cups INTEGER NOT NULL,
+            userid INTEGER NOT NULL
         )
         """,
         """
         CREATE TABLE screentime (
             id SERIAL PRIMARY KEY,
-            date DATE NOT NULL,
-            hours REAL NOT NULL
+            date DATE NOT NULL UNIQUE,
+            hours REAL NOT NULL,
+            userid INTEGER NOT NULL
         )
         """,
         """
