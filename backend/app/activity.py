@@ -2,8 +2,8 @@ from app import db
 from datetime import datetime
 
 
-class Sleep(db.Model):
-    __tablename__ = 'sleep'
+class Activity(db.Model):
+    __tablename__ = 'activity'
 
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
@@ -21,7 +21,7 @@ class Sleep(db.Model):
         except ValueError:
             raise ValueError("Incorrect data format, should be yyyy-mm-dd")
 
-        entry = Sleep(date=date, hours=hours)
+        entry = Activity(date=date, hours=hours)
         db.session.add(entry)
         db.session.commit()
         return 'success'
