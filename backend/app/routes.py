@@ -3,6 +3,7 @@ from app.activity import Activity
 from app.sleep import Sleep
 from app.water import Water
 from app.mood import Mood
+from app.userData import UserData
 from flask import request
 import json
 
@@ -10,6 +11,54 @@ import json
 @app.route("/")
 def hello():
     return "hello world"
+
+##
+# User data
+##
+
+
+@app.route("/api/userdata/addEntry", methods=["POST"])
+def addUser():
+    firstname = request.form.get("firstname")
+    lastname = request.form.get("lastname")
+    username = request.form.get("username")
+    password = request.form.get("password")
+    sex = request.form.get("sex")
+    weight = request.form.get("weight")
+    height = request.form.get("height")
+    age = request.form.get("age")
+    try:
+        (UserData.addUser(firstname, lastname, username,
+         password, sex, weight, height, age))
+        return 'Entry was added', 200
+
+    except Exception as e:
+        return str(e), 500
+
+
+@app.route("/api/userdata/<id>", methods=["GET", "PUT"])
+def getUserData(id):
+    user = UserData.getUser(id)
+    if (user is None):
+        return 'No user found', 204
+
+    if (request.method == 'GET'):
+        return user, 200
+    elif (request.method == 'PUT'):
+        firstname = request.form.get("firstname")
+        lastname = request.form.get("lastname")
+        username = request.form.get("username")
+        password = request.form.get("password")
+        sex = request.form.get("sex")
+        weight = request.form.get("weight")
+        height = request.form.get("height")
+        age = request.form.get("age")
+        try:
+            return UserData.updateUser(id, firstname, lastname, username, password, sex, weight, height, age)
+        except Exception as e:
+            return str(e), 500
+    else:
+        return Exception('method not recognized')
 
 ##
 # Activity

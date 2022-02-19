@@ -19,51 +19,65 @@ def createTable():
         "DROP TABLE food",
         "DROP TABLE water",
         "DROP TABLE screentime",
+        "DROP TABLE userdata"
     )
 
     commands = (
         """
         CREATE TABLE mood (
             id SERIAL PRIMARY KEY,
-            date DATE,
-            score INTEGER
+            date DATE NOT NULL,
+            score INTEGER NOT NULL
         )
         """,
         """
         CREATE TABLE activity (
             id SERIAL PRIMARY KEY,
-            date DATE,
-            hours REAL
+            date DATE NOT NULL,
+            hours REAL NOT NULL
         )
         """,
         """
         CREATE TABLE sleep (
             id SERIAL PRIMARY KEY,
-            date DATE,
-            hours REAL
+            date DATE NOT NULL,
+            hours REAL NOT NULL
         )
         """,
         """
         CREATE TABLE food (
             id SERIAL PRIMARY KEY,
-            date DATE,
-            cals INTEGER
+            date DATE NOT NULL,
+            cals INTEGER NOT NULL
         )
         """,
         """
         CREATE TABLE water (
             id SERIAL PRIMARY KEY,
-            date DATE,
-            cups INTEGER
+            date DATE NOT NULL,
+            cups INTEGER NOT NULL
         )
         """,
         """
         CREATE TABLE screentime (
             id SERIAL PRIMARY KEY,
-            date DATE,
-            hours REAL
+            date DATE NOT NULL,
+            hours REAL NOT NULL
         )
+        """,
         """
+        CREATE TABLE userdata (
+            id SERIAL PRIMARY KEY,
+            firstname VARCHAR(255) NOT NULL,
+            lastname VARCHAR(255) NOT NULL,
+            username VARCHAR(255) NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            sex VARCHAR(1) NOT NULL,
+            weight REAL NOT NULL,
+            height REAL NOT NULL,
+            age INTEGER NOT NULL
+        )
+        """  # sex must be 'M' or 'F'
     )
     try:
         cur = conn.cursor()
