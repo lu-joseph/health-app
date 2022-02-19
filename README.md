@@ -10,7 +10,7 @@ Create a database:
 
 - Open SQL Shell (psql)
 - Login by using the defaults (click enter each time) and enter the password chosen during installation
-- Once logged in, type `CREATE DATABASE <name>`, where `<name>` is the name of the database
+- Once logged in, type `CREATE DATABASE <name>`, where `<name>` is the name of your local database
 
 Set up the environment
 - Create a copy of `.env.sample` and rename it to `.env`
