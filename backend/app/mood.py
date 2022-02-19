@@ -1,5 +1,6 @@
 from app import db
 from datetime import datetime
+from calendar import monthrange
 
 
 class Mood(db.Model):
@@ -26,6 +27,23 @@ class Mood(db.Model):
         db.session.add(entry)
         db.session.commit()
         return 'success'
+
+    # requires: 1 <= month <= 12
+    def getCalendar(userid, month, year):
+        numDays = monthrange(int(year), int(month))[1]
+        print(numDays)
+        moodScores = {}
+        for day in range(1, numDays + 1):
+            calculatedDate = "%s-%s-%s" % (year,
+                                           str(month).zfill(2), str(day).zfill(2))
+            print("calculated date: " + calculatedDate)
+            entry = Mood.query.filter(Mood.userid == userid,
+                                      Mood.date == calculatedDate).first()
+            score = -1
+            if entry is not None:
+                score = entry.score
+            moodScores[str(day).zfill(2)] = score
+        return moodScores
 
     def serialize(self):
         return {
