@@ -22,7 +22,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-##Running the app in Windows:
+## Running the app in Windows:
   - Ensure you are in the backend folder
   - Ensure the virtual environment is activated (with `venv\Scripts\activate`)
   - Enter `flask run`
