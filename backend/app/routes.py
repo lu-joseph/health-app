@@ -109,6 +109,17 @@ def addSleepEntry():
     except Exception as e:
         return str(e), 500
 
+
+@app.route("/api/sleep/feedback", methods=["GET"])
+def getDailySleepFeedback():
+    userid = request.form.get("userid")
+    try:
+        feedback = Sleep.dailySleepFeedback(userid)
+        return feedback, 200
+
+    except Exception as e:
+        return str(e), 500
+
 ##
 # Water
 ##
