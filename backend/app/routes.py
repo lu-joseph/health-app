@@ -126,6 +126,16 @@ def addWaterEntry():
     except Exception as e:
         return str(e), 500
 
+
+@app.route("/api/water/feedback/<id>", methods=["GET"])
+def getDailyWaterFeedback(id):
+    try:
+        feedback = Water.dailyWaterFeedback(id)
+        return feedback, 200
+
+    except Exception as e:
+        return str(e), 500
+
 ##
 # Mood
 ##
