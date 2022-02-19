@@ -113,9 +113,11 @@ def getSleepEntries():
 def addSleepEntry():
     hours = request.form.get("hours")
     date = request.form.get("date")  # format must be yyyy-mm-dd
+    quality = request.form.get("quality")  # must be POOR, SOSO, or GOOD
+    feel = request.form.get("feel")  # must be AWAKE, TIRED, or SLEEPY
     userid = request.form.get("userid")
     try:
-        (Sleep.add_entry(userid, hours, date))
+        (Sleep.add_entry(userid, hours, quality, feel, date))
         return 'Entry was added', 200
 
     except Exception as e:

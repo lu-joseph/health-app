@@ -46,6 +46,8 @@ def createTable():
             id SERIAL,
             date DATE NOT NULL,
             hours REAL NOT NULL,
+            quality VARCHAR(255) NOT NULL,
+            feel VARCHAR(255) NOT NULL,
             userid INTEGER NOT NULL,
             PRIMARY KEY(userid, date)
         )
