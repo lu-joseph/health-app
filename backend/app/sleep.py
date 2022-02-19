@@ -30,6 +30,8 @@ class Sleep(db.Model):
 
     def dailySleepFeedback(id):
         user = UserData.getUser(id)
+        if (user is None):
+            print("user not found")
         recommendedSleep = 0
         age = user["age"]
         if 0 < age <= 2:

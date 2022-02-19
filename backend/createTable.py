@@ -25,50 +25,56 @@ def createTable():
     commands = (
         """
         CREATE TABLE mood (
-            id SERIAL PRIMARY KEY,
-            date DATE NOT NULL UNIQUE,
+            id SERIAL,
+            date DATE NOT NULL,
             score INTEGER NOT NULL,
-            userid INTEGER NOT NULL
+            userid INTEGER NOT NULL,
+            PRIMARY KEY(userid, date)
         )
         """,
         """
         CREATE TABLE activity (
-            id SERIAL PRIMARY KEY,
-            date DATE NOT NULL UNIQUE,
+            id SERIAL,
+            date DATE NOT NULL,
             hours REAL NOT NULL,
-            userid INTEGER NOT NULL
-        ) er
+            userid INTEGER NOT NULL,
+            PRIMARY KEY(userid, date)
+        )
         """,
         """
         CREATE TABLE sleep (
-            id SERIAL PRIMARY KEY,
-            date DATE NOT NULL UNIQUE,
+            id SERIAL,
+            date DATE NOT NULL,
             hours REAL NOT NULL,
-            userid INTEGER NOT NULL
+            userid INTEGER NOT NULL,
+            PRIMARY KEY(userid, date)
         )
         """,
         """
         CREATE TABLE food (
-            id SERIAL PRIMARY KEY,
-            date DATE NOT NULL UNIQUE,
+            id SERIAL,
+            date DATE NOT NULL,
             cals INTEGER NOT NULL,
-            userid INTEGER NOT NULL
+            userid INTEGER NOT NULL,
+            PRIMARY KEY(userid, date)
         )
         """,
         """
         CREATE TABLE water (
-            id SERIAL PRIMARY KEY,
-            date DATE NOT NULL UNIQUE,
+            id SERIAL,
+            date DATE NOT NULL,
             cups INTEGER NOT NULL,
-            userid INTEGER NOT NULL
+            userid INTEGER NOT NULL,
+            PRIMARY KEY(userid, date)
         )
         """,
         """
         CREATE TABLE screentime (
-            id SERIAL PRIMARY KEY,
-            date DATE NOT NULL UNIQUE,
+            id SERIAL,
+            date DATE NOT NULL,
             hours REAL NOT NULL,
-            userid INTEGER NOT NULL
+            userid INTEGER NOT NULL,
+            PRIMARY KEY(userid, date)
         )
         """,
         """
@@ -87,7 +93,6 @@ def createTable():
     )
     try:
         cur = conn.cursor()
-        print("arg is: " + sys.argv[1])
         if (len(sys.argv) == 2 and sys.argv[1] == "drop"):
             print("dropping old tables")
             for d in drop:
@@ -101,6 +106,7 @@ def createTable():
         conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
+        print("here")
     finally:
         if conn is not None:
             conn.close()
