@@ -1,4 +1,5 @@
 from app import app, db
+from app.activity import Activity
 from app.sleep import Sleep
 from app.water import Water
 from app.mood import Mood
@@ -9,6 +10,28 @@ import json
 @app.route("/")
 def hello():
     return "hello world"
+
+##
+# Activity
+##
+
+
+@app.route("/api/activity/getEntries", methods=["GET"])
+def getActivityEntries():
+    entries = Activity.query.all()
+    return json.dumps([e.serialize() for e in entries])
+
+
+@app.route("/api/activity/addEntry", methods=["POST"])
+def addActivityEntry():
+    hours = request.form.get("hours")
+    date = request.form.get("date")  # format must be yyyy-mm-dd
+    try:
+        (Activity.add_entry(hours, date))
+        return 'Entry was added', 200
+
+    except Exception as e:
+        return str(e), 500
 
 ##
 # Sleep

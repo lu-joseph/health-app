@@ -14,7 +14,7 @@ def createTable():
 
     drop = (
         "DROP TABLE mood",
-        "DROP TABLE exercise",
+        "DROP TABLE activity",
         "DROP TABLE sleep",
         "DROP TABLE food",
         "DROP TABLE water",
@@ -30,7 +30,7 @@ def createTable():
         )
         """,
         """
-        CREATE TABLE exercise (
+        CREATE TABLE activity (
             id SERIAL PRIMARY KEY,
             date DATE,
             hours REAL
