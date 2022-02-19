@@ -9,21 +9,28 @@ class Sleep(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
     hours = db.Column(db.REAL)
+    quality = db.Column(db.String)
+    feel = db.Column(db.String)
     userid = db.Column(db.Integer)
 
     # date must be in dd-mm-yyyy format
-    def add_entry(userid, hours, date=datetime.today().strftime('%Y-%m-%d')):
-        if (hours is None or userid is None):
+    def add_entry(userid, hours, quality, feel, date=datetime.today().strftime('%Y-%m-%d')):
+        if (hours is None or userid is None or quality is None or feel is None):
             raise Exception('field cannot be null')
+        elif (quality != "POOR" and quality != "SOSO" and quality != "GOOD"):
+            raise Exception('invalid sleep quality')
+        elif (feel != "AWAKE" and feel != "TIRED" and feel != "SLEEPY"):
+            raise Exception('invalid sleep feeling')
         elif (float(hours) < 0):
-            raise Exception('field cannot be negative')
+            raise Exception('hours cannot be negative')
 
         try:
             datetime.strptime(date, '%Y-%m-%d')
         except ValueError:
             raise ValueError("Incorrect data format, should be yyyy-mm-dd")
 
-        entry = Sleep(userid=userid, date=date, hours=hours)
+        entry = Sleep(userid=userid, date=date,
+                      quality=quality, feel=feel, hours=hours)
         db.session.add(entry)
         db.session.commit()
         return 'success'
@@ -64,6 +71,8 @@ class Sleep(db.Model):
         return {
             'result': result,
             'message': message,
+            'quality': entryToday.quality,
+            'feel': entryToday.feel,
             'recommendation': "According to The Center for Disease Control and Prevention, your age group should try to sleep " +
             str(recommendedSleep) + " hours a night."
         }
@@ -73,5 +82,7 @@ class Sleep(db.Model):
             'id': self.id,
             'date': self.date.strftime('%Y-%m-%d'),
             'hours': self.hours,
+            'quality': self.quality,
+            'feel': self.feel,
             'userid': self.userid
         }
