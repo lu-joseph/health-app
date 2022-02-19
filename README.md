@@ -15,7 +15,7 @@ Create a database:
 Set up the environment
 - Create a copy of `.env.sample` and rename it to `.env`
 - Fill in `.env` with the correct data for your local psql setup
-- Navigate to the backend folder
+- In the console, navigate to the backend folder and type the following commands:
 ```
 python3 -m venv venv
 venv\Scripts\activate
@@ -23,8 +23,8 @@ pip install -r requirements.txt
 ```
 
 ## Running the app in Windows:
-  - Ensure you are in the backend folder
+  - In the console, ensure you are in the backend folder
   - Ensure the virtual environment is activated (with `venv\Scripts\activate`)
-  - Enter `flask run`
+  - Enter the command `flask run`
 
 
