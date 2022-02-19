@@ -2,7 +2,7 @@
 
 ## Setup:
 
-If you don't have PostgreSql, install it [here](https://www.postgresql.org/download/)
+If you don't have PostgreSQL, install it [here](https://www.postgresql.org/download/)
 
 - Install with all defaults and remember the password you set
 
