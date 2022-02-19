@@ -19,6 +19,7 @@ def createTable():
         "DROP TABLE food",
         "DROP TABLE water",
         "DROP TABLE screentime",
+        "DROP TABLE journal",
         "DROP TABLE userdata"
     )
 
@@ -77,6 +78,17 @@ def createTable():
             id SERIAL,
             date DATE NOT NULL,
             hours REAL NOT NULL,
+            userid INTEGER NOT NULL,
+            PRIMARY KEY(userid, date)
+        )
+        """,
+        """
+        CREATE TABLE journal (
+            id SERIAL,
+            date DATE NOT NULL,
+            positive VARCHAR(8000),
+            grateful VARCHAR(8000),
+            notes VARCHAR(8000),
             userid INTEGER NOT NULL,
             PRIMARY KEY(userid, date)
         )
