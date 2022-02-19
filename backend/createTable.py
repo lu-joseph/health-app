@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 import os
+import sys
 import psycopg2
 
 load_dotenv()
@@ -10,6 +11,15 @@ def createTable():
                             database=os.getenv("DATABASE_NAME"),
                             user=os.getenv("DATABASE_USER"),
                             password=os.getenv("DATABASE_PASSWORD"))
+
+    drop = (
+        "DROP TABLE mood",
+        "DROP TABLE exercise",
+        "DROP TABLE sleep",
+        "DROP TABLE food",
+        "DROP TABLE water",
+        "DROP TABLE screentime",
+    )
 
     commands = (
         """
@@ -57,6 +67,12 @@ def createTable():
     )
     try:
         cur = conn.cursor()
+        print("arg is: " + sys.argv[1])
+        if (len(sys.argv) == 2 and sys.argv[1] == "drop"):
+            print("dropping old tables")
+            for d in drop:
+                cur.execute(d)
+        conn.commit()
 
         for command in commands:
             cur.execute(command)
