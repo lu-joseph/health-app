@@ -9,13 +9,13 @@ If you don't have PostgreSQL, install it [here](https://www.postgresql.org/downl
 Create a database:
 
 - Open SQL Shell (psql)
-- Login by using the defaults (click enter each time) and enter the password chosen during installation
-- Once logged in, type `CREATE DATABASE <name>`, where `<name>` is the name of your local database
+- Login by using the defaults (click enter each time) and enter the password set during installation
+- Once logged in, type `CREATE DATABASE <name>`, where `<name>` wil be the name of your local database
 
 Set up the environment:
 
 - Create a copy of `.env.sample` and rename it to `.env`
-- Fill in `.env` with the correct data for your local psql setup
+- Fill in `.env` with the appropriate data for your local psql setup
 - In the console, navigate to the backend folder and enter the following commands:
 ```
 python3 -m venv venv
