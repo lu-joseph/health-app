@@ -48,7 +48,7 @@ class Water(db.Model):
                 message = "Good job! You drank the exact recommended amount of water today!"
             else:
                 message = "Good job! You drank " + \
-                    str(result) + " more cups of water tahn the recommended amount."
+                    str(result) + " more cups of water than the recommended amount."
         return {
             'result': result,
             'message': message,

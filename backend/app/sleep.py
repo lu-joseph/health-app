@@ -1,4 +1,5 @@
 from app import db
+from app.userData import UserData
 from datetime import datetime
 
 
@@ -26,6 +27,44 @@ class Sleep(db.Model):
         db.session.add(entry)
         db.session.commit()
         return 'success'
+
+    def dailySleepFeedback(id):
+        user = UserData.getUser(id)
+        recommendedSleep = 0
+        age = user["age"]
+        if 0 < age <= 2:
+            recommendedSleep = 11
+        elif 2 < age <= 5:
+            recommendedSleep = 10
+        elif 5 < age <= 12:
+            recommendedSleep = 9
+        elif 12 < age <= 18:
+            recommendedSleep = 8
+        else:
+            recommendedSleep = 7
+        entryToday = Sleep.query.filter(Sleep.userid == id,
+                                        Sleep.date == datetime.today().strftime('%Y-%m-%d')).first()
+        if (entryToday is None):
+            message = "You have not inputted sleep hours today."
+            result = -recommendedSleep
+        else:
+            sleepToday = entryToday.hours
+            print("intake today: " + str(sleepToday))
+            result = sleepToday - recommendedSleep
+            if result < 0:
+                message = "Today you slept " + str(abs(result)) + \
+                    " less hours than the recommended amount. Try to do better tomorrow!"
+            elif result == 0:
+                message = "Good job! You slept the exact recommended number of hours today!"
+            else:
+                message = "Good job! You slept " + \
+                    str(result) + " more hours  than the recommended amount."
+        return {
+            'result': result,
+            'message': message,
+            'recommendation': "According to The Center for Disease Control and Prevention, your age group should try to sleep " +
+            str(recommendedSleep) + " hours a night."
+        }
 
     def serialize(self):
         return {

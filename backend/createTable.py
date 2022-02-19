@@ -37,7 +37,7 @@ def createTable():
             date DATE NOT NULL UNIQUE,
             hours REAL NOT NULL,
             userid INTEGER NOT NULL
-        )
+        ) er
         """,
         """
         CREATE TABLE sleep (
