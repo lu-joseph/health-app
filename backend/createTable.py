@@ -14,36 +14,42 @@ def createTable():
     commands = (
         """
         CREATE TABLE mood (
+            id SERIAL PRIMARY KEY,
             date DATE,
             score INTEGER
         )
         """,
         """
         CREATE TABLE exercise (
+            id SERIAL PRIMARY KEY,
             date DATE,
             hours REAL
         )
         """,
         """
         CREATE TABLE sleep (
+            id SERIAL PRIMARY KEY,
             date DATE,
             hours REAL
         )
         """,
         """
         CREATE TABLE food (
+            id SERIAL PRIMARY KEY,
             date DATE,
             cals INTEGER
         )
         """,
         """
         CREATE TABLE water (
+            id SERIAL PRIMARY KEY,
             date DATE,
             cups INTEGER
         )
         """,
         """
         CREATE TABLE screentime (
+            id SERIAL PRIMARY KEY,
             date DATE,
             hours REAL
         )
