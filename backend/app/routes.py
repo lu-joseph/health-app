@@ -192,5 +192,21 @@ def addMoodEntry():
         return str(e), 500
 
 
+# returns a json with the mood scores for each day in the month specified.
+#   a day will have -1 if there is no mood entered.
+@app.route("/api/mood/getCalendar", methods=["GET"])
+def getMoodCalendar():
+    year = request.form.get("year")
+    month = request.form.get("month")
+    userid = request.form.get("userid")
+    try:
+        calendar = Mood.getCalendar(userid, month, year)
+        print(calendar)
+        return calendar, 200
+
+    except Exception as e:
+        return str(e), 500
+
+
 if __name__ == '__main__':
     app.run()
