@@ -1,20 +1,19 @@
 from app import db
-#from sqlalchemy import delete
 from datetime import datetime
 
 
-class Sleep(db.Model):
-    __tablename__ = 'sleep'
+class Water(db.Model):
+    __tablename__ = 'water'
 
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
-    hours = db.Column(db.REAL)
+    cups = db.Column(db.Integer)
 
     # date must be in dd-mm-yyyy format
-    def add_entry(hours, date=datetime.today().strftime('%Y-%m-%d')):
-        if (hours is None):
+    def add_entry(cups, date=datetime.today().strftime('%Y-%m-%d')):
+        if (cups is None):
             raise Exception('field cannot be null')
-        elif (float(hours) < 0):
+        elif (int(cups) < 0):
             raise Exception('field cannot be negative')
 
         try:
@@ -22,7 +21,7 @@ class Sleep(db.Model):
         except ValueError:
             raise ValueError("Incorrect data format, should be yyyy-mm-dd")
 
-        entry = Sleep(date=date, hours=hours)
+        entry = Water(date=date, cups=cups)
         db.session.add(entry)
         db.session.commit()
         return 'success'
@@ -31,5 +30,5 @@ class Sleep(db.Model):
         return {
             'id': self.id,
             'date': self.date.strftime('%Y-%m-%d'),
-            'hours': self.hours
+            'cups': self.cups
         }
