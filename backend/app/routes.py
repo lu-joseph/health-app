@@ -41,6 +41,7 @@ def getUserData():
     userid = request.form.get("userid")
     user = UserData.getUser(userid)
     if (user is None):
+        print("couldn't find user")
         return 'No user found', 204
 
     if (request.method == 'GET'):
