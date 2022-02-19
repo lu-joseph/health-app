@@ -9,10 +9,12 @@ class Water(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
     cups = db.Column(db.Integer)
+    userid = db.Column(db.Integer)
 
     # date must be in dd-mm-yyyy format
-    def add_entry(cups, date=datetime.today().strftime('%Y-%m-%d')):
-        if (cups is None):
+
+    def add_entry(userid, cups, date=datetime.today().strftime('%Y-%m-%d')):
+        if (cups is None or userid is None):
             raise Exception('field cannot be null')
         elif (int(cups) < 0):
             raise Exception('field cannot be negative')
@@ -22,7 +24,7 @@ class Water(db.Model):
         except ValueError:
             raise ValueError("Incorrect data format, should be yyyy-mm-dd")
 
-        entry = Water(date=date, cups=cups)
+        entry = Water(userid=userid, date=date, cups=cups)
         db.session.add(entry)
         db.session.commit()
         return 'success'
@@ -30,8 +32,8 @@ class Water(db.Model):
     def dailyWaterFeedback(id):
         user = UserData.getUser(id)
         recommendedIntake = 15.5 if user["sex"] == 'M' else 11.5
-        entryToday = Water.query.filter(
-            Water.date == datetime.today().strftime('%Y-%m-%d')).first()
+        entryToday = Water.query.filter(Water.userid == id,
+                                        Water.date == datetime.today().strftime('%Y-%m-%d')).first()
         if (entryToday is None):
             message = "You have not inputted water intake today."
             result = -recommendedIntake
@@ -58,5 +60,6 @@ class Water(db.Model):
         return {
             'id': self.id,
             'date': self.date.strftime('%Y-%m-%d'),
-            'cups': self.cups
+            'cups': self.cups,
+            'userid': self.userid
         }

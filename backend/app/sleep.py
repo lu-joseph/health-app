@@ -8,10 +8,11 @@ class Sleep(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
     hours = db.Column(db.REAL)
+    userid = db.Column(db.Integer)
 
     # date must be in dd-mm-yyyy format
-    def add_entry(hours, date=datetime.today().strftime('%Y-%m-%d')):
-        if (hours is None):
+    def add_entry(userid, hours, date=datetime.today().strftime('%Y-%m-%d')):
+        if (hours is None or userid is None):
             raise Exception('field cannot be null')
         elif (float(hours) < 0):
             raise Exception('field cannot be negative')
@@ -21,7 +22,7 @@ class Sleep(db.Model):
         except ValueError:
             raise ValueError("Incorrect data format, should be yyyy-mm-dd")
 
-        entry = Sleep(date=date, hours=hours)
+        entry = Sleep(userid=userid, date=date, hours=hours)
         db.session.add(entry)
         db.session.commit()
         return 'success'
@@ -30,5 +31,6 @@ class Sleep(db.Model):
         return {
             'id': self.id,
             'date': self.date.strftime('%Y-%m-%d'),
-            'hours': self.hours
+            'hours': self.hours,
+            'userid': self.userid
         }
