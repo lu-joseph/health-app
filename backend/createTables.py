@@ -28,6 +28,8 @@ def createTable():
             id SERIAL,
             date DATE NOT NULL,
             score INTEGER NOT NULL,
+            stress INTEGER NOT NULL,
+            notes VARCHAR(8000),
             userid INTEGER NOT NULL,
             PRIMARY KEY(userid, date)
         )

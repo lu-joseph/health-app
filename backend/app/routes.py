@@ -185,9 +185,11 @@ def getMoodEntries():
 def addMoodEntry():
     score = request.form.get("score")  # must be between 1 and 5
     date = request.form.get("date")  # format must be yyyy-mm-dd
+    stress = request.form.get("stress")
+    notes = request.form.get("notes")
     userid = request.form.get("userid")
     try:
-        (Mood.add_entry(userid, score, date))
+        (Mood.add_entry(userid, score, stress, notes, date))
         return 'Entry was added', 200
 
     except Exception as e:
@@ -203,7 +205,6 @@ def getMoodCalendar():
     userid = request.form.get("userid")
     try:
         calendar = Mood.getCalendar(userid, month, year)
-        print(calendar)
         return calendar, 200
 
     except Exception as e:
