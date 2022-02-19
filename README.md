@@ -5,7 +5,7 @@
 If you don't have PostgreSql, install it [here](https://www.postgresql.org/download/)
 
 - Install with all defaults and remember the password you set
-- 
+
 Create a database:
 
 - Open SQL Shell (psql)
