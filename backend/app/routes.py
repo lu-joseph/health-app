@@ -6,6 +6,7 @@ from app.water import Water
 from app.mood import Mood
 from app.journal import Journal
 from app.userData import UserData
+from app.dashboard import Dashboard
 from flask import request
 from flask_cors import cross_origin
 import json
@@ -296,6 +297,21 @@ def addJournalEntry():
         (Journal.add_entry(userid, positive, grateful, notes, date))
         return 'Journal entry was added', 200
 
+    except Exception as e:
+        return str(e), 500
+
+##
+# Dashboard
+##
+
+
+@cross_origin
+@app.route("/api/dashboard/getScore", methods=["GET"])
+def getScore():
+    userid = request.form.get("userid")
+    try:
+        Dashboard.calcScore(userid)
+        return 'success', 200
     except Exception as e:
         return str(e), 500
 

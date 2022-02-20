@@ -2,6 +2,8 @@ from app import db
 from datetime import datetime
 from calendar import monthrange
 
+from app.userData import UserData
+
 
 class Mood(db.Model):
     __tablename__ = 'mood'
@@ -32,6 +34,24 @@ class Mood(db.Model):
         db.session.add(entry)
         db.session.commit()
         return 'success'
+
+    def dailyMoodFeedback(id):
+        entryToday = Mood.query.filter(Mood.userid == id,
+                                       Mood.date == datetime.today().strftime('%Y-%m-%d')).first()
+        noEntry = False
+        result = 0
+        stress = 0
+        if (entryToday is None):
+            message = "You have not inputted mood feedback today."
+            noEntry = True
+        else:
+            result = entryToday.score
+            stress = entryToday.stress
+        return {
+            'result': result,
+            'noEntry': noEntry,
+            'stress': stress
+        }
 
     # requires: 1 <= month <= 12
     def getCalendar(userid, month, year):
