@@ -12,6 +12,7 @@ import bluesq from "../../assets/bluesq.png"
 import orangesq from "../../assets/orangesq.png"
 import greensq from "../../assets/greensq.png"
 import { ResponsiveRadialBar } from '@nivo/radial-bar'
+import { ResponsiveCalendar } from '@nivo/calendar'
 import plus from "../../assets/plus.png";
 import axios from 'axios'
 import { ResponsiveBar } from '@nivo/bar'
@@ -102,7 +103,7 @@ export default function Dashboard() {
             <div className="text-9xl m-4 font-bold">{score}</div>
             <div className="text-3xl m-4 text-gray font-bold">out of 100</div> 
           </div>
-          <div className='relative rounded-xl mb-4 w-full shadow-md h-72 row-start-3 col-start-2 col-end-5 grid grid-cols-3 justify-center items-center justify-self-center self-center'>
+          <div className='relative rounded-xl mb-4 w-95% shadow-md h-72 row-start-3 col-start-2 col-end-5 grid grid-cols-3 justify-center items-center justify-self-center self-center'>
             <div className='absolute top-10 left-5 text-5xl font-bold'>Daily Progress</div>
             <div className='w-full h-72 col-start-1 col-end-3'>
               <ResponsiveRadialBar
