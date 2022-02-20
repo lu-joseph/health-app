@@ -14,13 +14,20 @@ import axios from 'axios'
 
 export default function Dashboard() {
   const [score,setScore]=useState(0);
+  const [firstname, setFirstname]=useState("");
   useEffect(()=>{
     fetch("http://localhost:5000/api/dashboard/getScore/1", {
       method: 'GET'
     })
      .then(response => response.json())
      .then(data => {setScore(data)})
-      .catch(error => {console.log(error)})
+     .catch(error => {console.log(error)});
+    
+     fetch("http://localhost:5000/api/userdata/1", {method: 'GET'})
+     .then(response => response.json())
+     .then(data => {setFirstname(data["firstname"])})
+     .catch(error => {console.log(error)})
+    
   },[]
 
   );
@@ -66,7 +73,7 @@ export default function Dashboard() {
           </div>
           <div className='rounded-xl mb-4 w-72 shadow-md h-72 row-start-3 col-start-1 flex flex-col justify-center items-center justify-self-center self-center'>
           </div>
-          <div className="row-start text-5xl ml-10 self-center font-montserrat">Hello John</div>
+          <div className="row-start text-5xl ml-10 self-center font-montserrat">Hello {firstname}</div>
           <div className="row-start-2 text-lg ml-10 text-gray">Today</div>
           <div className='rounded-xl mb-4 w-72 shadow-md h-72 row-start-5 col-start-1 flex flex-col justify-center items-center justify-self-center self-center'>
             <img src={sleep} alt='' className="object-contain m-5"/>
