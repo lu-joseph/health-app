@@ -1,4 +1,5 @@
 from audioop import cross
+from datetime import datetime
 from app import app, db
 from app.activity import Activity
 from app.sleep import Sleep
@@ -162,9 +163,21 @@ def addSleepEntry():
 def getDailySleepFeedback():
     userid = request.form.get("userid")
     try:
-        feedback = Sleep.dailySleepFeedback(userid)
+        feedback = Sleep.dailySleepFeedback(
+            userid, datetime.today().strftime('%Y-%m-%d'))
         return feedback, 200
 
+    except Exception as e:
+        return str(e), 500
+
+
+@cross_origin
+@app.route("/api/sleep/weeklyView", methods=["GET"])
+def getWeeklyFeedback():
+    userid = request.form.get("userid")
+    try:
+        print(Sleep.getWeeklyView(userid))
+        return "success", 200
     except Exception as e:
         return str(e), 500
 

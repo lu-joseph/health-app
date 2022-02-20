@@ -1,6 +1,6 @@
 from app import db
 from app.userData import UserData
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class Sleep(db.Model):
@@ -35,23 +35,13 @@ class Sleep(db.Model):
         db.session.commit()
         return 'success'
 
-    def dailySleepFeedback(id):
+    def dailySleepFeedback(id, date):
         user = UserData.getUser(id)
         if (user is None):
             return Exception("user not found")
-        age = user["age"]
-        if 0 < age <= 2:
-            recommendedSleep = 11
-        elif 2 < age <= 5:
-            recommendedSleep = 10
-        elif 5 < age <= 12:
-            recommendedSleep = 9
-        elif 12 < age <= 18:
-            recommendedSleep = 8
-        else:
-            recommendedSleep = 7
+        recommendedSleep = Sleep.getRecommendedHours(id)
         entryToday = Sleep.query.filter(Sleep.userid == id,
-                                        Sleep.date == datetime.today().strftime('%Y-%m-%d')).first()
+                                        Sleep.date == date).first()
         noEntry = entryToday is None
         # result = 0
         sleepToday = 0
@@ -80,6 +70,43 @@ class Sleep(db.Model):
             # 'recommendation': "According to The Center for Disease Control and Prevention, your age group should try to sleep " +
             # str(recommendedSleep) + " hours a night."
         }
+
+    def getRecommendedHours(id):
+        user = UserData.getUser(id)
+        if (user is None):
+            return Exception("user not found")
+        age = user["age"]
+        if 0 < age <= 2:
+            recommendedSleep = 11
+        elif 2 < age <= 5:
+            recommendedSleep = 10
+        elif 5 < age <= 12:
+            recommendedSleep = 9
+        elif 12 < age <= 18:
+            recommendedSleep = 8
+        else:
+            recommendedSleep = 7
+        return recommendedSleep
+
+    def getWeeklyView(id):
+        user = UserData.getUser(id)
+        if (user is None):
+            return Exception("user not found")
+        dayOfWeek = datetime.today().weekday()
+        week = []
+        for i in range(7):
+            week.append(
+                {'hours': 0, 'entered': False}
+            )
+        for day in range(dayOfWeek + 1):
+            print("date:", (datetime.today() -
+                  timedelta(days=dayOfWeek - day)).strftime('%Y-%m-%d'))
+            sleepData = Sleep.dailySleepFeedback(
+                id, (datetime.today() - timedelta(days=dayOfWeek - day)).strftime('%Y-%m-%d'))
+            if not sleepData["noEntry"]:
+                week[day]["hours"] = sleepData["hours"]
+                week[day]["entered"] = True
+        return week
 
     def serialize(self):
         return {

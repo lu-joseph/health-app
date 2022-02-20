@@ -1,3 +1,4 @@
+from datetime import datetime
 from app.activity import Activity
 from app.sleep import Sleep
 from app.mood import Mood
@@ -39,7 +40,8 @@ class Dashboard():
                   str(int(round(100 * waterScore))) + "%")
             score += int(round(waterScore * waterWeight))
 
-        sleepData = Sleep.dailySleepFeedback(userid)
+        sleepData = Sleep.dailySleepFeedback(
+            userid, datetime.today().strftime('%Y-%m-%d'))
         if sleepData["noEntry"]:
             total -= sleepWeight
             print("total now", total)
