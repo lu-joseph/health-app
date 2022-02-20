@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import settings from "../../assets/settings.png";
 import exit from "../../assets/exit.png";
 import logo from "../../assets/logo-blue.png";
@@ -8,9 +8,19 @@ import journal from "../../assets/journal.png"
 import nutrition from "../../assets/nutrition.png"
 import mood from "../../assets/mood.png"
 import dashboard from "../../assets/dashboard.png";
+import { Doughnut } from 'react-chartjs-2';
 import plus from "../../assets/plus.png";
+import axios from 'axios'
 
 export default function Dashboard() {
+
+  useEffect(()=>{
+    //CODE HERE
+    
+  },[]
+
+  );
+
   return (
     <div className='h-screen'>
       <div className='fixed w-full flex justify-between items-center px-20 h-24' >
@@ -49,6 +59,8 @@ export default function Dashboard() {
             <div className="text-3xl m-4 text-gray font-bold">Score</div> 
             <div className="text-9xl m-4 font-bold">90</div>
             <div className="text-3xl m-4 text-gray font-bold">out of 100</div> 
+          </div>
+          <div className='rounded-xl mb-4 w-72 shadow-md h-72 row-start-3 col-start-1 flex flex-col justify-center items-center justify-self-center self-center'>
           </div>
           <div className="row-start text-5xl ml-10 self-center font-montserrat">Hello John</div>
           <div className="row-start-2 text-lg ml-10 text-gray">Today</div>
