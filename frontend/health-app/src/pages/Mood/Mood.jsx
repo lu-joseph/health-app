@@ -24,11 +24,11 @@ export default function Sleep() {
 
                 <div className="text-xl mt-14 mb-8">How are you feeling today?</div>
                 <div className='flex mt-0'>
-                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood==="AWFUL"?" bg-gray":" bg-red")} onClick={()=>{setMood("AWFUL")}}>AWFUL</button>
-                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood==="BAD"?" bg-gray":" bg-peach")} onClick={()=>{setMood("BAD")}}>BAD</button>
-                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood==="MEH"?" bg-gray":" bg-bluemed")} onClick={()=>{setMood("MEH")}}>MEH</button>
-                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood==="GOOD"?" bg-gray":" bg-green")} onClick={()=>{setMood("GOOD")}}>GOOD</button>
-                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood==="GREAT"?" bg-gray":" bg-blueish")} onClick={()=>{setMood("GREAT")}}>GREAT</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood===1?" bg-gray":" bg-red")} onClick={()=>{setMood(1)}}>AWFUL</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood===2?" bg-gray":" bg-peach")} onClick={()=>{setMood(2)}}>BAD</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood===3?" bg-gray":" bg-bluemed")} onClick={()=>{setMood(3)}}>MEH</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood===4?" bg-gray":" bg-green")} onClick={()=>{setMood(4)}}>GOOD</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood===5?" bg-gray":" bg-blueish")} onClick={()=>{setMood(5)}}>GREAT</button>
                 </div>
                 
                 <div className="text-xl m-14">How would you rate your stress levels? </div>
@@ -41,7 +41,19 @@ export default function Sleep() {
 
                 <button className={"w-36 h-12 mt-24 rounded-full text-white font-bold" + (mood!==""?' bg-black':' bg-gray cursor-default')} onClick={()=>{
                     if(mood!==""){
-                        
+                        var bodyFormData = new FormData();
+                        bodyFormData.append('score', mood);
+                        bodyFormData.append('stress', stress);
+                        bodyFormData.append('notes', events);
+                        bodyFormData.append('userid', 1);
+                        bodyFormData.append('date', "2022-02-19");
+                        axios({
+                            method: "post",
+                            url: "http://localhost:5000/api/mood/addEntry",
+                            data: bodyFormData
+                        })
+                            .then(response => {console.log(response)})
+                            .catch(error => {console.log(error)})
                     }
                 }}>SUBMIT</button>
 
