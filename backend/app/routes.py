@@ -3,6 +3,7 @@ from app.activity import Activity
 from app.sleep import Sleep
 from app.water import Water
 from app.mood import Mood
+from app.journal import Journal
 from app.userData import UserData
 from flask import request
 import json
@@ -30,7 +31,7 @@ def addUser():
     try:
         (UserData.addUser(firstname, lastname, username,
          password, sex, weight, height, age))
-        return 'Entry was added', 200
+        return 'User entry was added', 200
 
     except Exception as e:
         return str(e), 500
@@ -81,7 +82,7 @@ def addActivityEntry():
     userid = request.form.get("userid")
     try:
         (Activity.add_entry(userid, hours, date))
-        return 'Entry was added', 200
+        return 'Activity entry was added', 200
 
     except Exception as e:
         return str(e), 500
@@ -118,7 +119,7 @@ def addSleepEntry():
     userid = request.form.get("userid")
     try:
         (Sleep.add_entry(userid, hours, quality, feel, date))
-        return 'Entry was added', 200
+        return 'Sleep entry was added', 200
 
     except Exception as e:
         return str(e), 500
@@ -153,7 +154,7 @@ def addWaterEntry():
     userid = request.form.get("userid")
     try:
         (Water.add_entry(userid, cups, date))
-        return 'Entry was added', 200
+        return 'Water entry was added', 200
 
     except Exception as e:
         return str(e), 500
@@ -190,7 +191,7 @@ def addMoodEntry():
     userid = request.form.get("userid")
     try:
         (Mood.add_entry(userid, score, stress, notes, date))
-        return 'Entry was added', 200
+        return 'Mood entry was added', 200
 
     except Exception as e:
         return str(e), 500
@@ -206,6 +207,34 @@ def getMoodCalendar():
     try:
         calendar = Mood.getCalendar(userid, month, year)
         return calendar, 200
+
+    except Exception as e:
+        return str(e), 500
+
+##
+# Journal
+##
+
+
+@app.route("/api/journal/getEntry", methods=["GET"])
+def getJournalEntry():
+    userid = request.form.get("userid")
+    date = request.form.get("date")
+    entry = Journal.query.filter(
+        Journal.userid == userid, Journal.date == date).all().first()
+    return entry
+
+
+@app.route("/api/journal/addEntry", methods=["POST"])
+def addJournalEntry():
+    date = request.form.get("date")  # format must be yyyy-mm-dd
+    positive = request.form.get("positive")
+    grateful = request.form.get("grateful")
+    notes = request.form.get("notes")
+    userid = request.form.get("userid")
+    try:
+        (Journal.add_entry(userid, positive, grateful, notes, date))
+        return 'Journal entry was added', 200
 
     except Exception as e:
         return str(e), 500
