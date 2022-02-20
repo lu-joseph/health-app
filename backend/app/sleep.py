@@ -93,11 +93,10 @@ class Sleep(db.Model):
         if (user is None):
             return Exception("user not found")
         dayOfWeek = datetime.today().weekday()
-        week = []
-        for i in range(7):
-            week.append(
-                {'hours': 0, 'entered': False}
-            )
+        week = {'monday': {}, 'tuesday': {},
+                'wednesday': {}, 'thursday': {}, 'friday': {}, 'saturday': {}, 'sunday': {}, }
+        for day in ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]:
+            week[day] = {'hours': 0, 'entered': False}
         for day in range(dayOfWeek + 1):
             print("date:", (datetime.today() -
                   timedelta(days=dayOfWeek - day)).strftime('%Y-%m-%d'))
