@@ -17,7 +17,7 @@ class Mood(db.Model):
 
     # date must be in dd-mm-yyyy format
     def add_entry(userid, score, stress, notes, date=datetime.today().strftime('%Y-%m-%d')):
-        if (score is None or userid is None or stress is None or notes is None):
+        if (score is None or userid is None or stress is None):
             raise Exception('field cannot be null')
         elif (int(stress) < 0 or int(stress) > 11):
             raise Exception('stress field must be between 1 and 10')
@@ -38,18 +38,20 @@ class Mood(db.Model):
     def dailyMoodFeedback(id):
         entryToday = Mood.query.filter(Mood.userid == id,
                                        Mood.date == datetime.today().strftime('%Y-%m-%d')).first()
-        noEntry = False
-        result = 0
+        noEntry = entryToday is None
+        # result = 0
+        mood = 0
         stress = 0
-        if (entryToday is None):
-            message = "You have not inputted mood feedback today."
-            noEntry = True
-        else:
-            result = entryToday.score
+        # if ():
+        #     message = "You have not inputted mood feedback today."
+        # else:
+        if not noEntry:
+            mood = entryToday.score
             stress = entryToday.stress
         return {
-            'result': result,
+            # 'result': result,
             'noEntry': noEntry,
+            'mood': mood,
             'stress': stress
         }
 

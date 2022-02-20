@@ -31,29 +31,39 @@ class Water(db.Model):
 
     def dailyWaterFeedback(id):
         user = UserData.getUser(id)
-        recommendedIntake = 15.5 if user["sex"] == 'M' else 11.5
+        recommendedIntake = 0
+        if user is None:
+            raise Exception("user not found")
+        else:
+            recommendedIntake = 15.5 if user["sex"] == 'M' else 11.5
+        # result = 0
+        intakeToday = 0
+
         entryToday = Water.query.filter(Water.userid == id,
                                         Water.date == datetime.today().strftime('%Y-%m-%d')).first()
-        if (entryToday is None):
-            message = "You have not inputted water intake today."
-            result = -recommendedIntake
-        else:
+        noEntry = entryToday is None
+        # if (entryToday is None):
+        #     message = "You have not inputted water intake today."
+        # else:
+        if not noEntry:
             intakeToday = entryToday.cups
-            print("intake today: " + str(intakeToday))
-            result = intakeToday - recommendedIntake
-            if result < 0:
-                message = "Today you drank " + str(abs(result)) + \
-                    " less cups of water than the recommended amount. Try to do better tomorrow!"
-            elif result == 0:
-                message = "Good job! You drank the exact recommended amount of water today!"
-            else:
-                message = "Good job! You drank " + \
-                    str(result) + " more cups of water than the recommended amount."
+            # result = intakeToday - recommendedIntake
+            # if result < 0:
+            #     message = "Today you drank " + str(abs(result)) + \
+            #         " less cups of water than the recommended amount. Try to do better tomorrow!"
+            # elif result == 0:
+            #     message = "Good job! You drank the exact recommended amount of water today!"
+            # else:
+            #     message = "Good job! You drank " + \
+            #         str(result) + " more cups of water than the recommended amount."
         return {
-            'result': result,
-            'message': message,
-            'recommendation': "According to The U.S. National Academies of Sciences, Engineering, and Medicine, you should try to drink " +
-            str(recommendedIntake) + " cups of water each day."
+            # 'result': result,
+            'noEntry': noEntry,
+            # 'message': message,
+            'recommended_intake': recommendedIntake,
+            'cups': intakeToday,
+            # 'recommendation': "According to The U.S. National Academies of Sciences, Engineering, and Medicine, you should try to drink " +
+            # str(recommendedIntake) + " cups of water each day."
         }
 
     def serialize(self):

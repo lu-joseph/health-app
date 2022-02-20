@@ -38,8 +38,7 @@ class Sleep(db.Model):
     def dailySleepFeedback(id):
         user = UserData.getUser(id)
         if (user is None):
-            print("user not found")
-        recommendedSleep = 0
+            return Exception("user not found")
         age = user["age"]
         if 0 < age <= 2:
             recommendedSleep = 11
@@ -53,31 +52,33 @@ class Sleep(db.Model):
             recommendedSleep = 7
         entryToday = Sleep.query.filter(Sleep.userid == id,
                                         Sleep.date == datetime.today().strftime('%Y-%m-%d')).first()
-        noEntry = False
-        result = 0
-        if (entryToday is None):
-            message = "You have not inputted sleep hours today."
-            noEntry = True
-        else:
+        noEntry = entryToday is None
+        # result = 0
+        sleepToday = 0
+        # if (noEntry):
+        #     message = "You have not inputted sleep hours today."
+        # else:
+        if not noEntry:
             sleepToday = entryToday.hours
-            print("intake today: " + str(sleepToday))
-            result = sleepToday - recommendedSleep
-            if result < 0:
-                message = "Today you slept " + str(abs(result)) + \
-                    " less hours than the recommended amount. Try to do better tomorrow!"
-            elif result == 0:
-                message = "Good job! You slept the exact recommended number of hours today!"
-            else:
-                message = "Good job! You slept " + \
-                    str(result) + " more hours than the recommended amount."
+            # result = sleepToday - recommendedSleep
+            # if result < 0:
+            #     message = "Today you slept " + str(abs(result)) + \
+            #         " less hours than the recommended amount. Try to do better tomorrow!"
+            # elif result == 0:
+            #     message = "Good job! You slept the exact recommended number of hours today!"
+            # else:
+            #     message = "Good job! You slept " + \
+            #         str(result) + " more hours than the recommended amount."
         return {
-            'result': result,
+            # 'result': result,
             'noEntry': noEntry,
-            'message': message,
-            'quality': entryToday.quality,
-            'feel': entryToday.feel,
-            'recommendation': "According to The Center for Disease Control and Prevention, your age group should try to sleep " +
-            str(recommendedSleep) + " hours a night."
+            # 'message': message,
+            # 'quality': entryToday.quality,
+            # 'feel': entryToday.feel,
+            'hours': sleepToday,
+            'recommended_hours': recommendedSleep,
+            # 'recommendation': "According to The Center for Disease Control and Prevention, your age group should try to sleep " +
+            # str(recommendedSleep) + " hours a night."
         }
 
     def serialize(self):
