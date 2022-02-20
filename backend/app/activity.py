@@ -41,12 +41,12 @@ class Activity(db.Model):
             recommendedActivity = 2.5
         entryToday = Activity.query.filter(Activity.userid == id,
                                            Activity.date == datetime.today().strftime('%Y-%m-%d')).first()
-        noEntry = entryToday is None
+        entryFound = entryToday is not None
         activityToday = 0
         # if (noEntry):
         #     message = "You have not inputted active hours today."
         # else:
-        if not noEntry:
+        if entryFound:
             activityToday = entryToday.hours
 
             # result = activityToday - recommendedActivity
@@ -60,7 +60,7 @@ class Activity(db.Model):
             #         str(result) + " more hours than the recommended amount."
         return {
             # 'result': result,
-            'noEntry': noEntry,
+            'entryFound': entryFound,
             # 'message': message,
             'hours': activityToday,
             'recommended_hours': recommendedActivity,

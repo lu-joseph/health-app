@@ -42,13 +42,13 @@ class Sleep(db.Model):
         recommendedSleep = Sleep.getRecommendedHours(id)
         entryToday = Sleep.query.filter(Sleep.userid == id,
                                         Sleep.date == date).first()
-        noEntry = entryToday is None
+        entryFound = entryToday is not None
         # result = 0
         sleepToday = 0
         # if (noEntry):
         #     message = "You have not inputted sleep hours today."
         # else:
-        if not noEntry:
+        if entryFound:
             sleepToday = entryToday.hours
             # result = sleepToday - recommendedSleep
             # if result < 0:
@@ -61,12 +61,12 @@ class Sleep(db.Model):
             #         str(result) + " more hours than the recommended amount."
         return {
             # 'result': result,
-            'noEntry': noEntry,
+            'entryFound': entryFound,
             # 'message': message,
             # 'quality': entryToday.quality,
             # 'feel': entryToday.feel,
             'hours': sleepToday,
-            'recommended_hours': recommendedSleep,
+            'recommended_hours': int(recommendedSleep),
             # 'recommendation': "According to The Center for Disease Control and Prevention, your age group should try to sleep " +
             # str(recommendedSleep) + " hours a night."
         }
@@ -86,7 +86,7 @@ class Sleep(db.Model):
             recommendedSleep = 8
         else:
             recommendedSleep = 7
-        return recommendedSleep
+        return str(recommendedSleep)
 
     def getWeeklyView(id):
         user = UserData.getUser(id)

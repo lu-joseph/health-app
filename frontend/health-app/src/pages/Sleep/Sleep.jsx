@@ -15,7 +15,7 @@ export default function Sleep() {
     return (
     <div className='h-screen'>
         <div className='fixed w-full flex justify-between items-center px-20 h-24' >
-            <img src={logo} alt="" className=''/>
+            <a href='/dashboard'><img src={logo} alt="" className=''/></a>
             <button className="w-auto h-12 p-3 rounded-full bg-custombluebutton"><img src={profile} alt='' className="h-full"></img></button>
         </div>
         <div className="flex flex-col justify-end items-center h-screen">
