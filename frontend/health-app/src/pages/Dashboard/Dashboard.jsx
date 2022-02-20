@@ -48,13 +48,13 @@ export default function Dashboard() {
             <a href='/form/sleep'><div className={'text-md text-gray'}>Sleep</div></a>
           </div>
           <div className="h-24 w-full pl-32 flex justify-start items-center border-8 border-white hover:border-l-gray">
-            <div className={'text-md text-gray'}>Nutrition</div>
+            <a href=''><div className={'text-md text-gray'}>Nutrition</div></a>
           </div>
           <div className="h-24 w-full pl-32 flex justify-start items-center border-8 border-white hover:border-l-gray">
             <a href='/form/mood'><div className={'text-md text-gray'}>Mood</div></a>
           </div>
           <div className="h-24 w-full pl-32 flex justify-start items-center border-8 border-white hover:border-l-gray">
-            <div className={'text-md text-gray'}>Journal</div>
+            <a href=''><div className={'text-md text-gray'}>Journal</div></a>
           </div>
           <div className="h-24 w-full mt-auto flex justify-start items-center border-8 border-white hover:border-l-gray">
             <img src={settings} alt='' className='pl-20'></img>
