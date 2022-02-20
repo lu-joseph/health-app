@@ -35,7 +35,9 @@ export default function Hero() {
             <div className='text-lg mb-20 w-2/4 text-center'>
                 To get started on your improvement journey click the button below to sign up.
             </div>
-            <button className="w-48 h-14 rounded-full bg-customblue text-white font-bold">CONTINUE</button>
+            <a href='/dashboard'>
+                <button className="w-48 h-14 rounded-full bg-customblue text-white font-bold">CONTINUE</button>
+            </a>
         </div>
     </div>
   )

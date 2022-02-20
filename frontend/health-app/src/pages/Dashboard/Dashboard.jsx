@@ -26,6 +26,7 @@ export default function Dashboard() {
   const [recommendedActiveHours, setRecommendedActiveHours]=useState(0);
   const [waterIntakeToday, setWaterIntakeToday]=useState(0);
   const [recommendedWaterIntake, setRecommendedWaterIntake]=useState(0);
+  const [sleepHoursForWeek, setSleepHoursForWeek]=useState([]);
 
   useEffect(()=>{
     fetch("http://localhost:5000/api/dashboard/getScore/1", {method: 'GET'})

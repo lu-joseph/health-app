@@ -303,7 +303,8 @@ def addJournalEntry():
 @app.route("/api/dashboard/getScore/<userid>", methods=["GET"])
 def getScore(userid):
     try:
-        return Dashboard.calcScore(userid), 200
+        print("b1")
+        return Dashboard.calcScore(userid, datetime.today().strftime('%Y-%m-%d')), 200
     except Exception as e:
         return str(e), 500
 
