@@ -2,12 +2,13 @@ import React,{useState} from 'react'
 import "./Sleep.css"
 import logo from "../../assets/logo-blue.png";
 import profile from "../../assets/profile.png";
+import axios from 'axios';
 
 export default function Sleep() {
 
     const [sleepHours,setSleepHours]=useState(5);
     const [sleepQuality, setSleepQuality]=useState("");
-    const [sleepFeel, setFeel]=useState("");
+    const [sleepFeel, setSleepFeel]=useState("");
 
 
 
@@ -26,21 +27,33 @@ export default function Sleep() {
                 <div className='text-xl mt-8'>{sleepHours}</div>
                 <div className="text-xl mt-14 mb-8">How would you rate your quality of sleep?</div>
                 <div className='flex mt-0'>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-red text-white font-bold" onChange={()=>{setSleepQuality("POOR")}}>POOR</button>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-yellow text-white font-bold" onChange={()=>{setSleepQuality("SOSO")}}>SO-SO</button>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-green text-white font-bold" onChange={()=>{setSleepQuality("GOOD")}}>GOOD</button>
+                    <button className="w-36 h-12 mx-4 rounded-sm bg-red text-white font-bold" onClick={()=>{setSleepQuality("POOR")}}>POOR</button>
+                    <button className="w-36 h-12 mx-4 rounded-sm bg-yellow text-white font-bold" onClick={()=>{setSleepQuality("SOSO")}}>SO-SO</button>
+                    <button className="w-36 h-12 mx-4 rounded-sm bg-green text-white font-bold" onClick={()=>{setSleepQuality("GOOD")}}>GOOD</button>
                 </div>
 
                 <div className="text-xl mt-14 mb-8">How would you rate your quality of sleep?</div>
                 <div className='flex mt-0'>
-                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluelight text-white font-bold" onChange={()=>{setFeel("AWAKE")}}>WIDE AWAKE </button>
-                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluemed text-white font-bold" onChange={()=>{setFeel("TIRED")}}>A BIT TIRED</button>
-                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluedark text-white font-bold" onChange={()=>{setFeel("SLEEPY")}}>SLEEPY</button>
+                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluelight text-white font-bold" onClick={()=>{setSleepFeel("AWAKE")}}>WIDE AWAKE </button>
+                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluemed text-white font-bold" onClick={()=>{setSleepFeel("TIRED")}}>A BIT TIRED</button>
+                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluedark text-white font-bold" onClick={()=>{setSleepFeel("SLEEPY")}}>SLEEPY</button>
                 </div>
 
-                <button className="w-36 h-12 mt-24 rounded-full bg-black text-white font-bold" onChange={()=>{
+                <button className="w-36 h-12 mt-24 rounded-full bg-black text-white font-bold" onClick={()=>{
                     if(sleepFeel!=="" && sleepQuality!==""){
-                        
+                        var bodyFormData = new FormData();
+                        bodyFormData.append('hours', sleepHours);
+                        bodyFormData.append('quality', sleepQuality);
+                        bodyFormData.append('feel', sleepFeel);
+                        bodyFormData.append('userid', 1);
+                        bodyFormData.append('date', "2022-02-16");
+                        axios({
+                            method: "post",
+                            url: "http://localhost:5000/api/sleep/addEntry",
+                            data: bodyFormData
+                        })
+                            .then(response => {console.log(response)})
+                            .catch(error => {console.log(error)})
                     }
                 }}>SUBMIT</button>
 
