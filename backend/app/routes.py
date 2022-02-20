@@ -156,12 +156,10 @@ def getDailySleepFeedback(userid):
 
 
 @cross_origin
-@app.route("/api/sleep/weeklyView", methods=["GET"])
-def getWeeklyFeedback():
-    userid = request.form.get("userid")
+@app.route("/api/sleep/weeklyView/<userid>", methods=["GET"])
+def getWeeklyFeedback(userid):
     try:
-        print(Sleep.getWeeklyView(userid))
-        return "success", 200
+        return Sleep.getWeeklyView(userid), 200
     except Exception as e:
         return str(e), 500
 
