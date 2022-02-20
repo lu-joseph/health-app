@@ -2,12 +2,13 @@ import React,{useState} from 'react'
 import "./Mood.css"
 import logo from "../../assets/logo-blue.png";
 import profile from "../../assets/profile.png";
+import axios from 'axios';
 
 export default function Sleep() {
 
-    const [sleepHours,setSleepHours]=useState(5);
-    const [sleepQuality, setSleepQuality]=useState("");
-    const [sleepFeel, setFeel]=useState("");
+    const [stress,setStress]=useState(5);
+    const [mood, setMood]=useState("");
+    const [events, setEvents]=useState("");
 
 
 
@@ -19,30 +20,27 @@ export default function Sleep() {
         </div>
         <div className="flex flex-col justify-end items-center h-screen">
             <div className="flex flex-col h-5/6 w-3/4 rounded-t-3xl shadow-md justify-center items-center">
-                <div className="text-3xl m-14 font-bold">SLEEP TRACKER</div>
+                <div className="text-3xl m-14 font-bold">MOOD TRACKER</div>
 
                 <div className="text-xl mt-14 mb-8">How are you feeling today?</div>
                 <div className='flex mt-0'>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-red text-white font-bold" onClick={()=>{setSleepQuality("AWFUL")}}>AWFUL</button>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-yellow text-white font-bold" onClick={()=>{setSleepQuality("BAD")}}>BAD</button>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-green text-white font-bold" onClick={()=>{setSleepQuality("MEH")}}>MEH</button>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-yellow text-white font-bold" onClick={()=>{setSleepQuality("BAD")}}>BAD</button>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-green text-white font-bold" onClick={()=>{setSleepQuality("MEH")}}>MEH</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood==="AWFUL"?" bg-gray":" bg-red")} onClick={()=>{setMood("AWFUL")}}>AWFUL</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood==="BAD"?" bg-gray":" bg-peach")} onClick={()=>{setMood("BAD")}}>BAD</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood==="MEH"?" bg-gray":" bg-bluemed")} onClick={()=>{setMood("MEH")}}>MEH</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood==="GOOD"?" bg-gray":" bg-green")} onClick={()=>{setMood("GOOD")}}>GOOD</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm text-white font-bold"+ (mood==="GREAT"?" bg-gray":" bg-blueish")} onClick={()=>{setMood("GREAT")}}>GREAT</button>
                 </div>
                 
                 <div className="text-xl m-14">How would you rate your stress levels? </div>
-                <input type='range' min='0' max='10' defaultValue={sleepHours} className='slider' onChange={(e)=>{setSleepHours(e.target.value)}}></input>
-                <div className='text-xl mt-8'>{sleepHours}</div>
+                <input type='range' min='0' max='10' defaultValue={stress} className='slider' onChange={(e)=>{setStress(e.target.value)}}></input>
+                <div className='text-xl mt-8'>{stress}</div>
 
-                <div className="text-xl mt-14 mb-8">How would you rate your quality of sleep?</div>
-                <div className='flex mt-0'>
-                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluelight text-white font-bold" onClick={()=>{setFeel("AWAKE")}}>WIDE AWAKE </button>
-                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluemed text-white font-bold" onClick={()=>{setFeel("TIRED")}}>A BIT TIRED</button>
-                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluedark text-white font-bold" onClick={()=>{setFeel("SLEEPY")}}>SLEEPY</button>
-                </div>
 
-                <button className="w-36 h-12 mt-24 rounded-full bg-black text-white font-bold" onClick={()=>{
-                    if(sleepFeel!=="" && sleepQuality!==""){
+                <div className="text-xl m-14"> List some events that might have contributed to stress: </div>
+                <textarea className='rounded-lg border-black border-2' value={events} onChange={(e)=>{setEvents(e.target.value)}} cols="40" rows="4"></textarea>
+
+                <button className={"w-36 h-12 mt-24 rounded-full text-white font-bold" + (mood!==""?' bg-black':' bg-gray cursor-default')} onClick={()=>{
+                    if(mood!==""){
                         
                     }
                 }}>SUBMIT</button>
