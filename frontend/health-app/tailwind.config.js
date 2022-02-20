@@ -28,7 +28,8 @@ module.exports = {
         '2screen':'200vh',
         '100%':'100%',
         '5%':'5%',
-        '90%':'90%'
+        '90%':'90%',
+        '95%':'97%'
       },
       gridTemplateRows:{
         'dash': "1fr 2em 3fr 3fr 3fr"

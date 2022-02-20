@@ -14,6 +14,7 @@ import greensq from "../../assets/greensq.png"
 import { ResponsiveRadialBar } from '@nivo/radial-bar'
 import plus from "../../assets/plus.png";
 import axios from 'axios'
+import { ResponsiveBar } from '@nivo/bar'
 
 export default function Dashboard() {
   const [score,setScore]=useState(0);
@@ -150,9 +151,57 @@ export default function Dashboard() {
 
             </div>
           </div>
-          <div className='relative rounded-xl ml-5 mb-4 w-90% shadow-md h-72 row-start-4 col-start-1 col-end-4 flex flex-col justify-center items-center justify-self-start self-center'>
+          <div className='relative rounded-xl ml-5 mb-4 w-95% shadow-md h-72 row-start-4 col-start-1 col-end-4 flex flex-col justify-center items-center justify-self-start self-center'>
 
           </div>
+          
+          <div className='rounded-xl mb-4 w-90% shadow-md h-72 row-start-4 col-start-4 col-end-5 flex flex-col justify-center items-start justify-self-center self-center'>
+            <div className='h-10 text-xl mt-10 mx-10 font-bold'>Sleep Cycle</div>
+            <ResponsiveBar
+              data={[
+                {
+                  "day":"Su",
+                  "hours":4
+                },
+                {
+                  "day":"M",
+                  "hours":6
+                },
+                {
+                  "day":"Tu",
+                  "hours":8
+                },
+                {
+                  "day":"W",
+                  "hours":3
+                },
+                {
+                  "day":"Th",
+                  "hours":6
+                },
+                {
+                  "day":"F",
+                  "hours":6
+                },
+                {
+                  "day":"Sa",
+                  "hours":5
+                }
+              ]}
+              keys={["hours"]}
+              layout="horizontal"
+              indexBy="day"
+              maxValue={12}
+              margin={{ top: 10, right: 45, bottom: 45, left: 45}}
+              colors={{ scheme: 'set2' }}
+              padding={0.3}
+              borderRadius={7}
+              enableLabel={false}
+              enableGridY={false}
+              axisLeft={{tickSize:0,tickPadding:14  }}
+            />
+          </div>
+
           <div className="row-start text-5xl ml-10 self-center font-montserrat">Hello {firstname}</div>
           <div className="row-start-2 text-lg ml-10 text-gray">Today</div>
           <div className='rounded-xl mb-4 w-90% shadow-md h-72 row-start-5 col-start-1 flex flex-col justify-center items-center justify-self-center self-center'>
@@ -163,8 +212,8 @@ export default function Dashboard() {
               </a>
           </div>
           <div className='rounded-xl mb-4 w-90% shadow-md h-72 row-start-5 col-start-2 flex flex-col justify-center items-center justify-self-center self-center'>
-            <img src={nutrition} alt='' className="object-contain m-4"/>
-            <div className="text-3xl m-4 font-bold">PHYSICAL HEALTH</div>
+            <img src={nutrition} alt='' className="object-contain m-1"/>
+            <div className="text-3xl m-3 font-bold text-center">PHYSICAL<p>HEALTH</p></div>
             <button className="w-40 h-12 m-4 border-bluemed border-4 rounded-full bg-white text-bluemed font-bold">UPDATE <img className='mx-2 h-3 inline' src={plus} alt=''/></button>
           </div>
           <div className='rounded-xl mb-4 w-90% shadow-md h-72 row-start-5 col-start-3 flex flex-col justify-center items-center justify-self-center self-center'>
