@@ -53,9 +53,11 @@ class Sleep(db.Model):
             recommendedSleep = 7
         entryToday = Sleep.query.filter(Sleep.userid == id,
                                         Sleep.date == datetime.today().strftime('%Y-%m-%d')).first()
+        noEntry = False
+        result = 0
         if (entryToday is None):
             message = "You have not inputted sleep hours today."
-            result = -recommendedSleep
+            noEntry = True
         else:
             sleepToday = entryToday.hours
             print("intake today: " + str(sleepToday))
@@ -70,6 +72,7 @@ class Sleep(db.Model):
                     str(result) + " more hours than the recommended amount."
         return {
             'result': result,
+            'noEntry': noEntry,
             'message': message,
             'quality': entryToday.quality,
             'feel': entryToday.feel,
