@@ -1,5 +1,4 @@
 import React from 'react'
-import "./Hero.css"
 import logo from "../../assets/logo.png";
 import backgroundLogo from "../../assets/logo-lg.png"
 
