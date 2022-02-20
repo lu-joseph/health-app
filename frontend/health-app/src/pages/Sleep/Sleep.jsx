@@ -4,7 +4,11 @@ import logo from "../../assets/logo-blue.png";
 import profile from "../../assets/profile.png";
 
 export default function Sleep() {
+
     const [sleepHours,setSleepHours]=useState(5);
+    const [sleepQuality, setSleepQuality]=useState("");
+    const [sleepFeel, setFeel]=useState("");
+
 
 
     return (
@@ -22,19 +26,23 @@ export default function Sleep() {
                 <div className='text-xl mt-8'>{sleepHours}</div>
                 <div className="text-xl mt-14 mb-8">How would you rate your quality of sleep?</div>
                 <div className='flex mt-0'>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-red text-white font-bold">POOR</button>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-yellow text-white font-bold">SO-SO</button>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-green text-white font-bold">GOOD</button>
+                    <button className="w-36 h-12 mx-4 rounded-sm bg-red text-white font-bold" onChange={()=>{setSleepQuality("POOR")}}>POOR</button>
+                    <button className="w-36 h-12 mx-4 rounded-sm bg-yellow text-white font-bold" onChange={()=>{setSleepQuality("SOSO")}}>SO-SO</button>
+                    <button className="w-36 h-12 mx-4 rounded-sm bg-green text-white font-bold" onChange={()=>{setSleepQuality("GOOD")}}>GOOD</button>
                 </div>
 
                 <div className="text-xl mt-14 mb-8">How would you rate your quality of sleep?</div>
                 <div className='flex mt-0'>
-                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluelight text-white font-bold">WIDE AWAKE </button>
-                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluemed text-white font-bold">A BIT TIRED</button>
-                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluedark text-white font-bold">SLEEPY</button>
+                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluelight text-white font-bold" onChange={()=>{setFeel("AWAKE")}}>WIDE AWAKE </button>
+                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluemed text-white font-bold" onChange={()=>{setFeel("TIRED")}}>A BIT TIRED</button>
+                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluedark text-white font-bold" onChange={()=>{setFeel("SLEEPY")}}>SLEEPY</button>
                 </div>
 
-                <button className="w-36 h-12 mt-24 rounded-full bg-black text-white font-bold">SUBMIT</button>
+                <button className="w-36 h-12 mt-24 rounded-full bg-black text-white font-bold" onChange={()=>{
+                    if(sleepFeel!=="" && sleepQuality!==""){
+                        
+                    }
+                }}>SUBMIT</button>
 
             </div>
         </div>
