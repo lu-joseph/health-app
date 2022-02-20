@@ -122,7 +122,7 @@ def getSleepEntry(userid):
 @cross_origin()
 @app.route("/api/sleep/getRecommended/<userid>", methods=["GET"])
 def getRecommendedHours(userid):
-    return Sleep.getRecommendedHours(userid), 200
+    return str(Sleep.getRecommendedHours(userid)), 200
 
 
 @cross_origin()
@@ -304,6 +304,15 @@ def addJournalEntry():
 def getScore(userid):
     try:
         return Dashboard.calcScore(userid), 200
+    except Exception as e:
+        return str(e), 500
+
+
+@cross_origin
+@app.route("/api/dashboard/monthScores/<userid>", methods=["GET"])
+def getMonthScores(userid):
+    try:
+        return Dashboard.calcLastMonth(userid), 200
     except Exception as e:
         return str(e), 500
 

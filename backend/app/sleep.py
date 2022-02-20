@@ -49,6 +49,7 @@ class Sleep(db.Model):
         #     message = "You have not inputted sleep hours today."
         # else:
         if entryFound:
+            print("b4")
             sleepToday = entryToday.hours
             # result = sleepToday - recommendedSleep
             # if result < 0:
@@ -86,7 +87,7 @@ class Sleep(db.Model):
             recommendedSleep = 8
         else:
             recommendedSleep = 7
-        return str(recommendedSleep)
+        return recommendedSleep
 
     def getWeeklyView(id):
         user = UserData.getUser(id)
@@ -107,6 +108,7 @@ class Sleep(db.Model):
                 Sleep.userid == id,
                 Sleep.date == (datetime.today() - timedelta(days=dayOfWeek - day)).strftime('%Y-%m-%d')).first()
             if sleepData is not None:
+                print("b5")
                 week[daysOfTheWeek[day]]["hours"] = sleepData.hours
                 week[daysOfTheWeek[day]]["entered"] = True
         return week
