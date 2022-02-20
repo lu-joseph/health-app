@@ -51,7 +51,6 @@ export default function Dashboard() {
                     if (data["entryFound"]) setWaterIntakeToday(data["cups"]);})
     .catch(error => console.log(error));
   },[]
-
   );
 
   return (
