@@ -12,7 +12,7 @@ import bluesq from "../../assets/bluesq.png"
 import orangesq from "../../assets/orangesq.png"
 import greensq from "../../assets/greensq.png"
 import { ResponsiveRadialBar } from '@nivo/radial-bar'
-import { ResponsiveCalendar } from '@nivo/calendar'
+import { ResponsiveTimeRange } from '@nivo/calendar'
 import plus from "../../assets/plus.png";
 import axios from 'axios'
 import { ResponsiveBar } from '@nivo/bar'
@@ -154,8 +154,37 @@ export default function Dashboard() {
 
             </div>
           </div>
-          <div className='relative rounded-xl ml-5 mb-4 w-95% shadow-md h-72 row-start-4 col-start-1 col-end-4 flex flex-col justify-center items-center justify-self-start self-center'>
-
+          <div className='rounded-xl ml-5 mb-4 w-95% shadow-md h-72 row-start-4 col-start-1 col-end-4 flex justify-between items-start justify-self-start self-center'>
+            <div className='top-10 left-5 text-5xl font-bold mx-32 mt-16'>30-Day Report</div>
+            <ResponsiveTimeRange
+              data={[{"value":36,"day":"2016-02-12"},{"value":87,"day":"2016-02-13"},
+              {"value":36,"day":"2016-02-14"},{"value":87,"day":"2016-02-15"},
+              {"value":36,"day":"2016-02-16"},{"value":87,"day":"2016-02-17"},
+              {"value":36,"day":"2016-02-18"},{"value":87,"day":"2016-02-19"},
+              {"value":36,"day":"2016-02-20"},{"value":87,"day":"2016-02-21"},
+              {"value":36,"day":"2016-02-23"},{"value":87,"day":"2016-02-24"},]}
+              from="2016-02-12"
+              to="2016-02-24"
+              emptyColor='#eeeeee'
+              minValue={0}
+              maxValue={100}
+              margin={{ top: 40, right: 10, bottom: 50, left: 150 }}
+              legends={[
+                {
+                    anchor: 'bottom-left',
+                    direction: 'row',
+                    justify: false,
+                    itemCount: 4,
+                    itemWidth: 42,
+                    itemHeight: 36,
+                    itemsSpacing: 14,
+                    itemDirection: 'right-to-left',
+                    translateX: 120,
+                    translateY: -50,
+                    symbolSize: 20
+                }
+            ]}
+            />
           </div>
           
           <div className='rounded-xl mb-4 w-90% shadow-md h-72 row-start-4 col-start-4 col-end-5 flex flex-col justify-center items-start justify-self-center self-center'>
