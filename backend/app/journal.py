@@ -6,7 +6,7 @@ from datetime import datetime
 class Journal(db.Model):
     __tablename__ = 'journal'
 
-    id = db.Column(db.Integer)
+    id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
     positive = db.Column(db.String)
     grateful = db.Column(db.String)

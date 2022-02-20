@@ -6,6 +6,7 @@ from app.mood import Mood
 from app.journal import Journal
 from app.userData import UserData
 from flask import request
+from flask_cors import cross_origin
 import json
 
 
@@ -110,6 +111,7 @@ def getSleepEntries():
     return json.dumps([e.serialize() for e in entries])
 
 
+@cross_origin()
 @app.route("/api/sleep/addEntry", methods=["POST"])
 def addSleepEntry():
     hours = request.form.get("hours")
@@ -122,6 +124,8 @@ def addSleepEntry():
         return 'Sleep entry was added', 200
 
     except Exception as e:
+        print("hours:", hours, "date:", date, "quality",
+              quality, "feel", feel, "userid", userid)
         return str(e), 500
 
 
