@@ -8,6 +8,9 @@ import journal from "../../assets/journal.png"
 import nutrition from "../../assets/nutrition.png"
 import mood from "../../assets/mood.png"
 import dashboard from "../../assets/dashboard.png";
+import bluesq from "../../assets/bluesq.png"
+import orangesq from "../../assets/orangesq.png"
+import greensq from "../../assets/greensq.png"
 import { ResponsiveRadialBar } from '@nivo/radial-bar'
 import plus from "../../assets/plus.png";
 import axios from 'axios'
@@ -97,47 +100,55 @@ export default function Dashboard() {
             <div className="text-9xl m-4 font-bold">{score}</div>
             <div className="text-3xl m-4 text-gray font-bold">out of 100</div> 
           </div>
-          <div className='relative rounded-xl mb-4 w-full shadow-md h-72 row-start-3 col-start-2 col-end-5 flex flex-col justify-center items-center justify-self-center self-center'>
+          <div className='relative rounded-xl mb-4 w-full shadow-md h-72 row-start-3 col-start-2 col-end-5 grid grid-cols-3 justify-center items-center justify-self-center self-center'>
             <div className='absolute top-10 left-5 text-5xl font-bold'>Daily Progress</div>
-            <ResponsiveRadialBar
-              data={[
-                {id:"Sleep",data:[
-                  {x:'Sleep',y:6}
-                ]},
-                {id:"Water",data:[
-                  {x:'Water',y:4}
-                ]},
-                {id:"Exercise",data:[
-                  {x:'Exercise',y:2}
+            <div className='w-full h-72 col-start-1 col-end-3'>
+              <ResponsiveRadialBar
+                data={[
+                  {id:"Sleep",data:[
+                    {x:'Sleep',y:(sleepHoursToday/recommendedSleepHours)}
+                  ]},
+                  {id:"Water",data:[
+                    {x:'Water',y:(waterIntakeToday/recommendedWaterIntake)}
+                  ]},
+                  {id:"Exercise",data:[
+                    {x:'Exercise',y:(activeHoursToday/recommendedActiveHours)}
+                  ]}
                 ]}
-              ]}
-              padding={0.4}
-              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-              valueFormat=" >-.2d"
-              colors={{ scheme: 'category10' }}
-              maxValue={10}
-              enableRadialGrid={false}
-              circularAxisOuter={{ tickSize: 0, tickPadding: 3, tickRotation: -31 }}
-              cornerRadius={4}
-              innerRadius={0.2}
-              enableCircularGrid={false}
-              radialAxisStart={null}
-              legends={[
-                {
-                    dataFrom: 'keys',
-                    anchor: 'right',
-                    direction: 'column',
-                    justify: false,
-                    translateX: -200,
-                    translateY: -40,
-                    itemWidth: 143,
-                    itemHeight: 10,
-                    itemsSpacing: 30,
-                    symbolSize: 30,
-                    itemDirection: 'left-to-right'
-                }
-            ]}
-            />
+                padding={0.4}
+                margin={{ top: 20, right: 20, bottom: 20, left: 300 }}
+                valueFormat=" >-.2d"
+                colors={{ scheme: 'category10' }}
+                maxValue={10}
+                enableRadialGrid={false}
+                circularAxisOuter={{ tickSize: 0, tickPadding: 3, tickRotation: -31 }}
+                cornerRadius={4}
+                innerRadius={0.2}
+                enableCircularGrid={false}
+                circularAxisOuter={null}
+                radialAxisStart={null}
+              />
+            </div>
+            <div className='w-full h-72 col-start-3 col-end-4 flex flex-col justify-center'>
+                <div className='flex items-center gap-3 mt-4'>
+                  <img src={bluesq} alt='' className='h-5 w-5 rounded-full'/>
+                  <div className='text-xl font-bold'>Sleep</div>
+                </div>
+                <div className='text-gray text-md ml-8'>{sleepHoursToday} hours</div>
+                
+                <div className='flex items-center gap-3 mt-4'>
+                  <img src={orangesq} alt='' className='h-5 w-5 rounded-full'/>
+                  <div className='text-xl font-bold'>Water</div>
+                </div>
+                <div className='text-gray text-md ml-8'>{waterIntakeToday} cups</div>
+
+                <div className='flex items-center gap-3 mt-4'>
+                  <img src={greensq} alt='' className='h-5 w-5 rounded-full'/>
+                  <div className='text-xl font-bold'>Exercise</div>
+                </div>
+                <div className='text-gray text-md ml-8'>{activeHoursToday} hours</div>
+
+            </div>
           </div>
           <div className='relative rounded-xl ml-5 mb-4 w-90% shadow-md h-72 row-start-4 col-start-1 col-end-4 flex flex-col justify-center items-center justify-self-start self-center'>
 
