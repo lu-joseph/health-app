@@ -41,11 +41,12 @@ class Water(db.Model):
 
         entryToday = Water.query.filter(Water.userid == id,
                                         Water.date == datetime.today().strftime('%Y-%m-%d')).first()
-        noEntry = entryToday is None
+
+        entryFound = entryToday is not None
         # if (entryToday is None):
         #     message = "You have not inputted water intake today."
         # else:
-        if not noEntry:
+        if entryFound:
             intakeToday = entryToday.cups
             # result = intakeToday - recommendedIntake
             # if result < 0:
@@ -56,9 +57,10 @@ class Water(db.Model):
             # else:
             #     message = "Good job! You drank " + \
             #         str(result) + " more cups of water than the recommended amount."
+
         return {
             # 'result': result,
-            'noEntry': noEntry,
+            'entryFound': entryFound,
             # 'message': message,
             'recommended_intake': recommendedIntake,
             'cups': intakeToday,

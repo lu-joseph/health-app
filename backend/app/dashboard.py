@@ -15,7 +15,7 @@ class Dashboard():
         moodWeight = 15
         stressWeight = 25
         activityData = Activity.dailyActivityFeedback(userid)
-        if activityData["noEntry"]:
+        if not activityData["entryFound"]:
             total -= activityWeight
             print("total now", total)
         else:
@@ -28,7 +28,7 @@ class Dashboard():
             score += int(round(activityScore * activityWeight))
 
         waterData = Water.dailyWaterFeedback(userid)
-        if waterData["noEntry"]:
+        if not waterData["entryFound"]:
             total -= waterWeight
             print("total now", total)
         else:
@@ -42,7 +42,7 @@ class Dashboard():
 
         sleepData = Sleep.dailySleepFeedback(
             userid, datetime.today().strftime('%Y-%m-%d'))
-        if sleepData["noEntry"]:
+        if not sleepData["entryFound"]:
             total -= sleepWeight
             print("total now", total)
         else:
@@ -55,7 +55,7 @@ class Dashboard():
             score += int(round(sleepScore * sleepWeight))
 
         moodData = Mood.dailyMoodFeedback(userid)
-        if moodData["noEntry"]:
+        if not moodData["entryFound"]:
             total -= moodWeight
             print("total now", total)
             total -= stressWeight
@@ -72,7 +72,7 @@ class Dashboard():
             print("stress score is " +
                   str(int(round(100 * stressScore))) + "%")
             score += int(round(stressScore * stressWeight))
-
+        print("b")
         if total == 0:
             return "0"
         else:

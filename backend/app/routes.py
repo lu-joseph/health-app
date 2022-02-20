@@ -57,21 +57,21 @@ def getUserData(userid):
 
 
 @cross_origin()
-@app.route("/api/activity/getEntries", methods=["GET"])
-def getActivityEntries():
-    userid = request.form.get("userid")
+@app.route("/api/activity/getEntries/<userid>", methods=["GET"])
+def getActivityEntries(userid):
     entries = Activity.query.filter(Activity.userid == userid).all()
     return json.dumps([e.serialize() for e in entries])
 
 
 @cross_origin()
-@app.route("/api/activity/getEntry", methods=["GET"])
-def getActivityEntry():
-    date = request.form.get("date")
-    userid = request.form.get("userid")
+@app.route("/api/activity/getEntry/<userid>", methods=["GET"])
+def getActivityEntry(userid):
+    date = datetime.today().strftime('%Y-%m-%d')
     entry = Activity.query.filter(
         Activity.userid == userid, Activity.date == date).first()
-    return entry
+    if entry is None:
+        return None, 200
+    return entry.serialize(), 200
 
 
 @cross_origin()
@@ -89,9 +89,8 @@ def addActivityEntry():
 
 
 @cross_origin()
-@app.route("/api/activity/feedback", methods=["GET"])
-def getDailyActivityFeedback():
-    userid = request.form.get("userid")
+@app.route("/api/activity/feedback/<userid>", methods=["GET"])
+def getDailyActivityFeedback(userid):
     try:
         feedback = Activity.dailyActivityFeedback(userid)
         return feedback, 200
@@ -105,21 +104,25 @@ def getDailyActivityFeedback():
 
 
 @cross_origin()
-@app.route("/api/sleep/getEntries", methods=["GET"])
-def getSleepEntries():
-    userid = request.form.get("userid")
+@app.route("/api/sleep/getEntries/<userid>", methods=["GET"])
+def getSleepEntries(userid):
     entries = Sleep.query.filter(Sleep.userid == userid).all()
     return json.dumps([e.serialize() for e in entries])
 
 
 @cross_origin()
-@app.route("/api/sleep/getEntry", methods=["GET"])
-def getSleepEntry():
-    date = request.form.get("date")
-    userid = request.form.get("userid")
+@app.route("/api/sleep/getEntry/<userid>", methods=["GET"])
+def getSleepEntry(userid):
+    date = datetime.today().strftime('%Y-%m-%d')
     entry = Sleep.query.filter(
         Sleep.userid == userid, Sleep.date == date).first()
-    return entry
+    return entry.serialize()
+
+
+@cross_origin()
+@app.route("/api/sleep/getRecommended/<userid>", methods=["GET"])
+def getRecommendedHours(userid):
+    return Sleep.getRecommendedHours(userid), 200
 
 
 @cross_origin()
@@ -141,9 +144,8 @@ def addSleepEntry():
 
 
 @cross_origin
-@app.route("/api/sleep/feedback", methods=["GET"])
-def getDailySleepFeedback():
-    userid = request.form.get("userid")
+@app.route("/api/sleep/feedback/<userid>", methods=["GET"])
+def getDailySleepFeedback(userid):
     try:
         feedback = Sleep.dailySleepFeedback(
             userid, datetime.today().strftime('%Y-%m-%d'))
@@ -201,9 +203,8 @@ def addWaterEntry():
 
 
 @cross_origin
-@app.route("/api/water/feedback", methods=["GET"])
-def getDailyWaterFeedback():
-    userid = request.form.get("userid")
+@app.route("/api/water/feedback/<userid>", methods=["GET"])
+def getDailyWaterFeedback(userid):
     try:
         feedback = Water.dailyWaterFeedback(userid)
         return feedback, 200
@@ -303,7 +304,6 @@ def addJournalEntry():
 @cross_origin
 @app.route("/api/dashboard/getScore/<userid>", methods=["GET"])
 def getScore(userid):
-    # userid = request.form.get("userid")
     try:
         return Dashboard.calcScore(userid), 200
     except Exception as e:

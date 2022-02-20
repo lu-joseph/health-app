@@ -15,19 +15,41 @@ import axios from 'axios'
 export default function Dashboard() {
   const [score,setScore]=useState(0);
   const [firstname, setFirstname]=useState("");
+  const [sleepHoursToday, setSleepHoursToday]=useState(0);
+  const [recommendedSleepHours, setRecommendedSleepHours]=useState(0);
+  const [activeHoursToday, setActiveHoursToday]=useState(0);
+  const [recommendedActiveHours, setRecommendedActiveHours]=useState(0);
+  const [waterIntakeToday, setWaterIntakeToday]=useState(0);
+  const [recommendedWaterIntake, setRecommendedWaterIntake]=useState(0);
+
   useEffect(()=>{
-    fetch("http://localhost:5000/api/dashboard/getScore/1", {
-      method: 'GET'
-    })
+    fetch("http://localhost:5000/api/dashboard/getScore/1", {method: 'GET'})
      .then(response => response.json())
      .then(data => {setScore(data)})
      .catch(error => {console.log(error)});
     
-     fetch("http://localhost:5000/api/userdata/1", {method: 'GET'})
+    fetch("http://localhost:5000/api/userdata/1", {method: 'GET'})
      .then(response => response.json())
      .then(data => {setFirstname(data["firstname"])})
-     .catch(error => {console.log(error)})
+     .catch(error => {console.log(error)});
     
+    fetch("http://localhost:5000/api/sleep/feedback/1", {method: 'GET'})
+    .then(response => response.json())
+    .then(data => {setRecommendedSleepHours(data["recommended_hours"]);
+                    if (data["entryFound"]) setSleepHoursToday(data["hours"]);})
+    .catch(error => console.log(error));
+
+    fetch("http://localhost:5000/api/activity/feedback/1", {method: 'GET'})
+    .then(response => response.json())
+    .then(data => {setRecommendedActiveHours(data["recommended_hours"]); 
+                    if (data["entryFound"]) setActiveHoursToday(data["hours"]);})
+    .catch(error => console.log(error));
+
+    fetch("http://localhost:5000/api/water/feedback/1", {method: 'GET'})
+    .then(response => response.json())
+    .then(data => {setRecommendedWaterIntake(data["recommended_intake"]);
+                    if (data["entryFound"]) setWaterIntakeToday(data["cups"]);})
+    .catch(error => console.log(error));
   },[]
 
   );

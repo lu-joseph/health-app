@@ -38,19 +38,19 @@ class Mood(db.Model):
     def dailyMoodFeedback(id):
         entryToday = Mood.query.filter(Mood.userid == id,
                                        Mood.date == datetime.today().strftime('%Y-%m-%d')).first()
-        noEntry = entryToday is None
+        entryFound = entryToday is not None
         # result = 0
         mood = 0
         stress = 0
         # if ():
         #     message = "You have not inputted mood feedback today."
         # else:
-        if not noEntry:
+        if entryFound:
             mood = entryToday.score
             stress = entryToday.stress
         return {
             # 'result': result,
-            'noEntry': noEntry,
+            'entryFound': entryFound,
             'mood': mood,
             'stress': stress
         }
