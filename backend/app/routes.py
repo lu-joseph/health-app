@@ -122,7 +122,7 @@ def getSleepEntry(userid):
 @cross_origin()
 @app.route("/api/sleep/getRecommended/<userid>", methods=["GET"])
 def getRecommendedHours(userid):
-    return Sleep.getRecommendedHours(userid), 200
+    return str(Sleep.getRecommendedHours(userid)), 200
 
 
 @cross_origin()

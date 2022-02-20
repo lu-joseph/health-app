@@ -72,13 +72,12 @@ class Dashboard():
             print("stress score is " +
                   str(int(round(100 * stressScore))) + "%")
             score += int(round(stressScore * stressWeight))
-        print("b")
         if total == 0:
             return "0"
         else:
             return str(int(round(100 * score / total)))
 
-    def calcLastMonth(id):
+    def calcScore(id, date):
         score = 0
         total = 100
         activityWeight = 15
@@ -86,8 +85,55 @@ class Dashboard():
         sleepWeight = 35
         moodWeight = 15
         stressWeight = 25
-        activityEntries = Activity.query.filter(Activity.userid == id,
-                                                Activity.date > (datetime.today() - timedelta(days=30)).strftime('%Y-%m-%d')).all()
-        for i in activityEntries:
-            print()
-        return "success"
+        activityEntry = Activity.query.filter(
+            Activity.userid == id, Activity.date == date).first()
+        if activityEntry is None:
+            total -= activityWeight
+        else:
+            activityHours = activityEntry.hours
+            activityRecommendation = Activity.getRecommendedHours(id)
+            activityScore = activityHours / activityRecommendation
+            score += int(round(activityScore * activityWeight))
+        waterEntry = Water.query.filter(
+            Water.userid == id, Water.date == date).first()
+        if waterEntry is None:
+            total -= waterWeight
+        else:
+            waterIntake = waterEntry.cups
+            waterRecommendation = Water.recommendedIntake
+            waterScore = waterIntake / waterRecommendation
+            score += int(round(waterScore * waterWeight))
+        sleepEntry = Sleep.query.filter(
+            Sleep.userid == id, Sleep.date == date).first()
+        if sleepEntry is None:
+            total -= sleepWeight
+        else:
+            sleepHours = sleepEntry.hours
+            sleepRecommendation = Sleep.getRecommendedHours(id)
+            sleepScore = sleepHours / sleepRecommendation
+            score += int(round(sleepScore * sleepWeight))
+        moodEntry = Mood.query.filter(
+            Mood.userid == id, Mood.date == date).first()
+        if moodEntry is None:
+            total -= moodWeight
+            total -= stressWeight
+        else:
+            moodResult = moodEntry.score  # 1 to 5
+            moodScore = moodResult / 5
+            score += int(round(moodScore * moodWeight))
+
+            stressLevel = moodEntry.stress  # 1 to 10, higher stress bad
+            stressScore = stressLevel / 10
+            score += int(round(stressScore * stressWeight))
+        if total == 0:
+            return "0"
+        else:
+            return str(int(round(100 * score / total)))
+
+    def calcLastMonth(id):
+        l = []
+        for day in range(28):
+            date = (datetime.today() - timedelta(days=day)).strftime('%Y-%m-%d')
+            l.append({'day': date, 'value': Dashboard.calcScore(id, date)})
+        # return l
+        return {'list': l}
