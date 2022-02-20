@@ -47,7 +47,6 @@ class Activity(db.Model):
         #     message = "You have not inputted active hours today."
         # else:
         if entryFound:
-            print("b1")
             activityToday = entryToday.hours
 
             # result = activityToday - recommendedActivity

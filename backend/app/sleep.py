@@ -49,7 +49,6 @@ class Sleep(db.Model):
         #     message = "You have not inputted sleep hours today."
         # else:
         if entryFound:
-            print("b4")
             sleepToday = entryToday.hours
             # result = sleepToday - recommendedSleep
             # if result < 0:
@@ -94,13 +93,12 @@ class Sleep(db.Model):
         if (user is None):
             return Exception("user not found")
         dayOfWeek = datetime.today().weekday()
-        daysOfTheWeek = ["monday", "tuesday", "wednesday",
-                         "thursday", "friday", "saturday", "sunday"]
-        # week = {'monday': {}, 'tuesday': {},
-        #         'wednesday': {}, 'thursday': {}, 'friday': {}, 'saturday': {}, 'sunday': {}, }
-        week = {}
+        daysOfTheWeek = ["sunday", "monday", "tuesday", "wednesday",
+                         "thursday", "friday", "saturday"]
+        week = []
         for i in range(7):
-            week[daysOfTheWeek[i]] = {'hours': 0, 'entered': False}
+            week.append(
+                {'day': daysOfTheWeek[i], 'hours': 0, 'entered': False})
         # for day in daysOfTheWeek:
         #     week[day] = {'hours': 0, 'entered': False}
         for day in range(dayOfWeek + 1):
@@ -108,10 +106,9 @@ class Sleep(db.Model):
                 Sleep.userid == id,
                 Sleep.date == (datetime.today() - timedelta(days=dayOfWeek - day)).strftime('%Y-%m-%d')).first()
             if sleepData is not None:
-                print("b5")
-                week[daysOfTheWeek[day]]["hours"] = sleepData.hours
-                week[daysOfTheWeek[day]]["entered"] = True
-        return week
+                week[day]["hours"] = sleepData.hours
+                week[day]["entered"] = True
+        return {'week': week}
 
     def serialize(self):
         return {
