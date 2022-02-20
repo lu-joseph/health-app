@@ -93,18 +93,22 @@ class Sleep(db.Model):
         if (user is None):
             return Exception("user not found")
         dayOfWeek = datetime.today().weekday()
-        week = {'monday': {}, 'tuesday': {},
-                'wednesday': {}, 'thursday': {}, 'friday': {}, 'saturday': {}, 'sunday': {}, }
-        for day in ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]:
-            week[day] = {'hours': 0, 'entered': False}
+        daysOfTheWeek = ["monday", "tuesday", "wednesday",
+                         "thursday", "friday", "saturday", "sunday"]
+        # week = {'monday': {}, 'tuesday': {},
+        #         'wednesday': {}, 'thursday': {}, 'friday': {}, 'saturday': {}, 'sunday': {}, }
+        week = {}
+        for i in range(7):
+            week[daysOfTheWeek[i]] = {'hours': 0, 'entered': False}
+        # for day in daysOfTheWeek:
+        #     week[day] = {'hours': 0, 'entered': False}
         for day in range(dayOfWeek + 1):
-            print("date:", (datetime.today() -
-                  timedelta(days=dayOfWeek - day)).strftime('%Y-%m-%d'))
-            sleepData = Sleep.dailySleepFeedback(
-                id, (datetime.today() - timedelta(days=dayOfWeek - day)).strftime('%Y-%m-%d'))
-            if not sleepData["noEntry"]:
-                week[day]["hours"] = sleepData["hours"]
-                week[day]["entered"] = True
+            sleepData = Sleep.query.filter(
+                Sleep.userid == id,
+                Sleep.date == (datetime.today() - timedelta(days=dayOfWeek - day)).strftime('%Y-%m-%d')).first()
+            if sleepData is not None:
+                week[daysOfTheWeek[day]]["hours"] = sleepData.hours
+                week[daysOfTheWeek[day]]["entered"] = True
         return week
 
     def serialize(self):

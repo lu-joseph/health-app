@@ -50,6 +50,11 @@ export default function Dashboard() {
     .then(data => {setRecommendedWaterIntake(data["recommended_intake"]);
                     if (data["entryFound"]) setWaterIntakeToday(data["cups"]);})
     .catch(error => console.log(error));
+
+    fetch("http://localhost:5000/api/sleep/weeklyView/1", {method: 'GET'})
+    .then(response => response.json())
+    .then(data => {console.log(data)})
+    .catch(error => console.log(error));
   },[]
   );
 
