@@ -9,6 +9,7 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Hero/>}/>
+        <Route path='/dashboard' element={<Dashboard/>}/>
         <Route path='/form/sleep' element={<Sleep/>}/>
         <Route path='/form/mood' element={<Mood/>}/>
       </Routes>

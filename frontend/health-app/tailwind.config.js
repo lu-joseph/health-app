@@ -25,7 +25,15 @@ module.exports = {
     },
     extend: {
       spacing: {
-        '2screen':'200vh'
+        '2screen':'200vh',
+        '100%':'100%',
+        '5%':'5%'
+      },
+      gridTemplateRows:{
+        'dash': "1fr 2em 3fr 3fr 3fr"
+      },
+      fontFamily:{
+        'montserrat':["Montserrat",'sans-serif']
       }
     },
   },
