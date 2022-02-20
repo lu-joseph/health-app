@@ -39,6 +39,7 @@ export default function Sleep() {
                 <div className="text-xl m-14"> List some events that might have contributed to stress: </div>
                 <textarea className='rounded-lg border-black border-2' value={events} onChange={(e)=>{setEvents(e.target.value)}} cols="40" rows="4"></textarea>
 
+                <a href='/dashboard'>
                 <button className={"w-36 h-12 mt-24 rounded-full text-white font-bold" + (mood!==""?' bg-black':' bg-gray cursor-default')} onClick={()=>{
                     if(mood!==""){
                         var bodyFormData = new FormData();
@@ -55,7 +56,7 @@ export default function Sleep() {
                             .then(response => {console.log(response)})
                             .catch(error => {console.log(error)})
                     }
-                }}>SUBMIT</button>
+                }}>SUBMIT</button></a>
 
             </div>
         </div>

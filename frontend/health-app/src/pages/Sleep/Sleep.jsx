@@ -10,8 +10,6 @@ export default function Sleep() {
     const [sleepQuality, setSleepQuality]=useState("");
     const [sleepFeel, setSleepFeel]=useState("");
 
-
-
     return (
     <div className='h-screen'>
         <div className='fixed w-full flex justify-between items-center px-20 h-24' >
@@ -27,18 +25,19 @@ export default function Sleep() {
                 <div className='text-xl mt-8'>{sleepHours}</div>
                 <div className="text-xl mt-14 mb-8">How would you rate your quality of sleep?</div>
                 <div className='flex mt-0'>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-red text-white font-bold" onClick={()=>{setSleepQuality("POOR")}}>POOR</button>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-yellow text-white font-bold" onClick={()=>{setSleepQuality("SOSO")}}>SO-SO</button>
-                    <button className="w-36 h-12 mx-4 rounded-sm bg-green text-white font-bold" onClick={()=>{setSleepQuality("GOOD")}}>GOOD</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm" + (sleepQuality==="POOR"?" bg-gray":" bg-red") + " text-white font-bold"} onClick={()=>{setSleepQuality("POOR")}}>POOR</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm" + (sleepQuality==="SOSO"?" bg-gray":" bg-yellow") + " text-white font-bold"} onClick={()=>{setSleepQuality("SOSO")}}>SO-SO</button>
+                    <button className={"w-36 h-12 mx-4 rounded-sm" + (sleepQuality==="GOOD"?" bg-gray":" bg-green") + " text-white font-bold"} onClick={()=>{setSleepQuality("GOOD")}}>GOOD</button>
                 </div>
 
                 <div className="text-xl mt-14 mb-8">How would you rate your quality of sleep?</div>
                 <div className='flex mt-0'>
-                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluelight text-white font-bold" onClick={()=>{setSleepFeel("AWAKE")}}>WIDE AWAKE </button>
-                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluemed text-white font-bold" onClick={()=>{setSleepFeel("TIRED")}}>A BIT TIRED</button>
-                    <button className="w-48 h-12 mx-4 rounded-sm bg-bluedark text-white font-bold" onClick={()=>{setSleepFeel("SLEEPY")}}>SLEEPY</button>
+                    <button className={"w-48 h-12 mx-4 rounded-sm" + (sleepFeel==="AWAKE"?" bg-gray":" bg-bluelight") + " text-white font-bold"} onClick={()=>{setSleepFeel("AWAKE")}}>WIDE AWAKE </button>
+                    <button className={"w-48 h-12 mx-4 rounded-sm" + (sleepFeel==="TIRED"?" bg-gray":" bg-bluemed") + " text-white font-bold"} onClick={()=>{setSleepFeel("TIRED")}}>A BIT TIRED</button>
+                    <button className={"w-48 h-12 mx-4 rounded-sm" + (sleepFeel==="SLEEPY"?" bg-gray":" bg-bluedark") + " text-white font-bold"} onClick={()=>{setSleepFeel("SLEEPY")}}>SLEEPY</button>
                 </div>
 
+                <a href='/dashboard'>
                 <button className="w-36 h-12 mt-24 rounded-full bg-black text-white font-bold" onClick={()=>{
                     if(sleepFeel!=="" && sleepQuality!==""){
                         var bodyFormData = new FormData();
@@ -55,7 +54,7 @@ export default function Sleep() {
                             .then(response => {console.log(response)})
                             .catch(error => {console.log(error)})
                     }
-                }}>SUBMIT</button>
+                }}>SUBMIT</button></a>
 
             </div>
         </div>
