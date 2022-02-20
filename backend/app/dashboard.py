@@ -74,6 +74,6 @@ class Dashboard():
             score += int(round(stressScore * stressWeight))
 
         if total == 0:
-            print("calculated score: 0")
+            return "0"
         else:
-            print("calculated score:", int(round(100 * score / total)))
+            return str(int(round(100 * score / total)))

@@ -43,31 +43,13 @@ def addUser():
 
 
 @cross_origin
-@app.route("/api/userdata", methods=["GET", "PUT"])
-def getUserData():
-    userid = request.form.get("userid")
+@app.route("/api/userdata/<userid>", methods=["GET"])
+def getUserData(userid):
     user = UserData.getUser(userid)
     if (user is None):
         print("couldn't find user")
         return 'No user found', 204
-
-    if (request.method == 'GET'):
-        return user, 200
-    elif (request.method == 'PUT'):
-        firstname = request.form.get("firstname")
-        lastname = request.form.get("lastname")
-        username = request.form.get("username")
-        password = request.form.get("password")
-        sex = request.form.get("sex")
-        weight = request.form.get("weight")
-        height = request.form.get("height")
-        age = request.form.get("age")
-        try:
-            return UserData.updateUser(userid, firstname, lastname, username, password, sex, weight, height, age)
-        except Exception as e:
-            return str(e), 500
-    else:
-        return Exception('method not recognized')
+    return user, 200
 
 ##
 # Activity
@@ -319,12 +301,11 @@ def addJournalEntry():
 
 
 @cross_origin
-@app.route("/api/dashboard/getScore", methods=["GET"])
-def getScore():
-    userid = request.form.get("userid")
+@app.route("/api/dashboard/getScore/<userid>", methods=["GET"])
+def getScore(userid):
+    # userid = request.form.get("userid")
     try:
-        Dashboard.calcScore(userid)
-        return 'success', 200
+        return Dashboard.calcScore(userid), 200
     except Exception as e:
         return str(e), 500
 
