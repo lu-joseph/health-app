@@ -45,7 +45,8 @@ export default function Dashboard() {
     fetch("http://localhost:5000/api/activity/feedback/1", {method: 'GET'})
     .then(response => response.json())
     .then(data => {setRecommendedActiveHours(data["recommended_hours"]); 
-                    if (data["entryFound"]) setActiveHoursToday(data["hours"]);})
+                    if (data["entryFound"]) setActiveHoursToday(data["hours"]);
+                  console.log(data["hours"] + ", " +data["recommended_hours"]);})
     .catch(error => console.log(error));
 
     fetch("http://localhost:5000/api/water/feedback/1", {method: 'GET'})
@@ -105,21 +106,21 @@ export default function Dashboard() {
             <div className='w-full h-72 col-start-1 col-end-3'>
               <ResponsiveRadialBar
                 data={[
-                  {id:"Sleep",data:[
-                    {x:'Sleep',y:(sleepHoursToday/recommendedSleepHours)}
+                  {id:"Sleep %",data:[
+                    {x:'Sleep %',y:Math.min((100 * sleepHoursToday/recommendedSleepHours), 100)}
                   ]},
-                  {id:"Water",data:[
-                    {x:'Water',y:(waterIntakeToday/recommendedWaterIntake)}
+                  {id:"Water %",data:[
+                    {x:'Water %',y:Math.min((100 * waterIntakeToday/recommendedWaterIntake), 100)}
                   ]},
-                  {id:"Exercise",data:[
-                    {x:'Exercise',y:(activeHoursToday/recommendedActiveHours)}
+                  {id:"Exercise %",data:[
+                    {x:'Exercise %',y:Math.min((100 * activeHoursToday/recommendedActiveHours), 100)}
                   ]}
                 ]}
                 padding={0.4}
                 margin={{ top: 20, right: 20, bottom: 20, left: 300 }}
                 valueFormat=" >-.2d"
                 colors={{ scheme: 'category10' }}
-                maxValue={10}
+                maxValue={100}
                 enableRadialGrid={false}
                 circularAxisOuter={{ tickSize: 0, tickPadding: 3, tickRotation: -31 }}
                 cornerRadius={4}
