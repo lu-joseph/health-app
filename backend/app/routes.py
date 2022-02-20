@@ -308,5 +308,14 @@ def getScore(userid):
         return str(e), 500
 
 
+@cross_origin
+@app.route("/api/dashboard/monthScores/<userid>", methods=["GET"])
+def getMonthScores(userid):
+    try:
+        return Dashboard.calcLastMonth(userid), 200
+    except Exception as e:
+        return str(e), 500
+
+
 if __name__ == '__main__':
     app.run()

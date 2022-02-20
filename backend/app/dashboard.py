@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from app.activity import Activity
 from app.sleep import Sleep
 from app.mood import Mood
@@ -77,3 +77,17 @@ class Dashboard():
             return "0"
         else:
             return str(int(round(100 * score / total)))
+
+    def calcLastMonth(id):
+        score = 0
+        total = 100
+        activityWeight = 15
+        waterWeight = 10
+        sleepWeight = 35
+        moodWeight = 15
+        stressWeight = 25
+        activityEntries = Activity.query.filter(Activity.userid == id,
+                                                Activity.date > (datetime.today() - timedelta(days=30)).strftime('%Y-%m-%d')).all()
+        for i in activityEntries:
+            print()
+        return "success"
