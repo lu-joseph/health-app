@@ -11,6 +11,8 @@ class Water(db.Model):
     cups = db.Column(db.Integer)
     userid = db.Column(db.Integer)
 
+    recommendedIntake = 8
+
     # date must be in dd-mm-yyyy format
 
     def add_entry(userid, cups, date=datetime.today().strftime('%Y-%m-%d')):
@@ -31,11 +33,8 @@ class Water(db.Model):
 
     def dailyWaterFeedback(id):
         user = UserData.getUser(id)
-        recommendedIntake = 0
         if user is None:
             raise Exception("user not found")
-        else:
-            recommendedIntake = 15.5 if user["sex"] == 'M' else 11.5
         # result = 0
         intakeToday = 0
 
@@ -62,7 +61,7 @@ class Water(db.Model):
             # 'result': result,
             'entryFound': entryFound,
             # 'message': message,
-            'recommended_intake': recommendedIntake,
+            'recommended_intake': Water.recommendedIntake,
             'cups': intakeToday,
             # 'recommendation': "According to The U.S. National Academies of Sciences, Engineering, and Medicine, you should try to drink " +
             # str(recommendedIntake) + " cups of water each day."

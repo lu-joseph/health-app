@@ -80,7 +80,7 @@ export default function Dashboard() {
             <a href='/form/sleep'><div className={'text-md text-gray'}>Sleep</div></a>
           </div>
           <div className="h-24 w-full pl-32 flex justify-start items-center border-8 border-white hover:border-l-gray">
-            <a href=''><div className={'text-md text-gray'}>Nutrition</div></a>
+            <a href='/form/physical'><div className={'text-md text-gray'}>Physical Health</div></a>
           </div>
           <div className="h-24 w-full pl-32 flex justify-start items-center border-8 border-white hover:border-l-gray">
             <a href='/form/mood'><div className={'text-md text-gray'}>Mood</div></a>
@@ -216,7 +216,9 @@ export default function Dashboard() {
           <div className='rounded-xl mb-4 w-90% shadow-md h-72 row-start-5 col-start-2 flex flex-col justify-center items-center justify-self-center self-center'>
             <img src={nutrition} alt='' className="object-contain m-1"/>
             <div className="text-3xl m-3 font-bold text-center">PHYSICAL<p>HEALTH</p></div>
+            <a href='/form/physical'>
             <button className="w-40 h-12 m-4 border-bluemed border-4 rounded-full bg-white text-bluemed font-bold">UPDATE <img className='mx-2 h-3 inline' src={plus} alt=''/></button>
+            </a>
           </div>
           <div className='rounded-xl mb-4 w-90% shadow-md h-72 row-start-5 col-start-3 flex flex-col justify-center items-center justify-self-center self-center'>
             <img src={mood} alt='' className="object-contain mt-2 mb-3"/>

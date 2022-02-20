@@ -47,6 +47,7 @@ class Activity(db.Model):
         #     message = "You have not inputted active hours today."
         # else:
         if entryFound:
+            print("b1")
             activityToday = entryToday.hours
 
             # result = activityToday - recommendedActivity
@@ -67,6 +68,19 @@ class Activity(db.Model):
             # 'recommendation': "According to The WHO, your age group should try to reach " +
             # str(recommendedActivity) + " active hours a day."
         }
+
+    def getRecommendedHours(id):
+        user = UserData.getUser(id)
+        if (user is None):
+            return Exception("user not found")
+        age = user["age"]
+        if 0 < age <= 4:
+            recommendedActivity = 3
+        elif 4 < age <= 17:
+            recommendedActivity = 1
+        else:
+            recommendedActivity = 2.5
+        return recommendedActivity
 
     def serialize(self):
         return {
