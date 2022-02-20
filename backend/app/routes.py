@@ -1,3 +1,5 @@
+from audioop import cross
+from datetime import datetime
 from app import app, db
 from app.activity import Activity
 from app.sleep import Sleep
@@ -5,6 +7,7 @@ from app.water import Water
 from app.mood import Mood
 from app.journal import Journal
 from app.userData import UserData
+from app.dashboard import Dashboard
 from flask import request
 from flask_cors import cross_origin
 import json
@@ -19,6 +22,7 @@ def hello():
 ##
 
 
+@cross_origin
 @app.route("/api/userdata/addEntry", methods=["POST"])
 def addUser():
     firstname = request.form.get("firstname")
@@ -38,6 +42,7 @@ def addUser():
         return str(e), 500
 
 
+@cross_origin
 @app.route("/api/userdata", methods=["GET", "PUT"])
 def getUserData():
     userid = request.form.get("userid")
@@ -69,6 +74,7 @@ def getUserData():
 ##
 
 
+@cross_origin()
 @app.route("/api/activity/getEntries", methods=["GET"])
 def getActivityEntries():
     userid = request.form.get("userid")
@@ -76,6 +82,17 @@ def getActivityEntries():
     return json.dumps([e.serialize() for e in entries])
 
 
+@cross_origin()
+@app.route("/api/activity/getEntry", methods=["GET"])
+def getActivityEntry():
+    date = request.form.get("date")
+    userid = request.form.get("userid")
+    entry = Activity.query.filter(
+        Activity.userid == userid, Activity.date == date).first()
+    return entry
+
+
+@cross_origin()
 @app.route("/api/activity/addEntry", methods=["POST"])
 def addActivityEntry():
     hours = request.form.get("hours")
@@ -89,6 +106,7 @@ def addActivityEntry():
         return str(e), 500
 
 
+@cross_origin()
 @app.route("/api/activity/feedback", methods=["GET"])
 def getDailyActivityFeedback():
     userid = request.form.get("userid")
@@ -104,11 +122,22 @@ def getDailyActivityFeedback():
 ##
 
 
+@cross_origin()
 @app.route("/api/sleep/getEntries", methods=["GET"])
 def getSleepEntries():
     userid = request.form.get("userid")
     entries = Sleep.query.filter(Sleep.userid == userid).all()
     return json.dumps([e.serialize() for e in entries])
+
+
+@cross_origin()
+@app.route("/api/sleep/getEntry", methods=["GET"])
+def getSleepEntry():
+    date = request.form.get("date")
+    userid = request.form.get("userid")
+    entry = Sleep.query.filter(
+        Sleep.userid == userid, Sleep.date == date).first()
+    return entry
 
 
 @cross_origin()
@@ -129,13 +158,26 @@ def addSleepEntry():
         return str(e), 500
 
 
+@cross_origin
 @app.route("/api/sleep/feedback", methods=["GET"])
 def getDailySleepFeedback():
     userid = request.form.get("userid")
     try:
-        feedback = Sleep.dailySleepFeedback(userid)
+        feedback = Sleep.dailySleepFeedback(
+            userid, datetime.today().strftime('%Y-%m-%d'))
         return feedback, 200
 
+    except Exception as e:
+        return str(e), 500
+
+
+@cross_origin
+@app.route("/api/sleep/weeklyView", methods=["GET"])
+def getWeeklyFeedback():
+    userid = request.form.get("userid")
+    try:
+        print(Sleep.getWeeklyView(userid))
+        return "success", 200
     except Exception as e:
         return str(e), 500
 
@@ -144,6 +186,7 @@ def getDailySleepFeedback():
 ##
 
 
+@cross_origin
 @app.route("/api/water/getEntries", methods=["GET"])
 def getWaterEntries():
     userid = request.form.get("userid")
@@ -151,6 +194,17 @@ def getWaterEntries():
     return json.dumps([e.serialize() for e in entries])
 
 
+@cross_origin
+@app.route("/api/water/getEntry", methods=["GET"])
+def getWaterEntry():
+    date = request.form.get("date")
+    userid = request.form.get("userid")
+    entry = Water.query.filter(
+        Water.userid == userid, Water.date == date).first()
+    return entry
+
+
+@cross_origin
 @app.route("/api/water/addEntry", methods=["POST"])
 def addWaterEntry():
     cups = request.form.get("cups")
@@ -164,6 +218,7 @@ def addWaterEntry():
         return str(e), 500
 
 
+@cross_origin
 @app.route("/api/water/feedback", methods=["GET"])
 def getDailyWaterFeedback():
     userid = request.form.get("userid")
@@ -179,6 +234,7 @@ def getDailyWaterFeedback():
 ##
 
 
+@cross_origin
 @app.route("/api/mood/getEntries", methods=["GET"])
 def getMoodEntries():
     userid = request.form.get("userid")
@@ -186,6 +242,17 @@ def getMoodEntries():
     return json.dumps([e.serialize() for e in entries])
 
 
+@cross_origin
+@app.route("/api/mood/getEntry", methods=["GET"])
+def getMoodEntry():
+    date = request.form.get("date")
+    userid = request.form.get("userid")
+    entry = Mood.query.filter(
+        Mood.userid == userid, Mood.date == date).first()
+    return entry
+
+
+@cross_origin
 @app.route("/api/mood/addEntry", methods=["POST"])
 def addMoodEntry():
     score = request.form.get("score")  # must be between 1 and 5
@@ -203,6 +270,7 @@ def addMoodEntry():
 
 # returns a json with the mood scores for each day in the month specified.
 #   a day will have -1 if there is no mood entered.
+@cross_origin
 @app.route("/api/mood/getCalendar", methods=["GET"])
 def getMoodCalendar():
     year = request.form.get("year")
@@ -220,6 +288,7 @@ def getMoodCalendar():
 ##
 
 
+@cross_origin
 @app.route("/api/journal/getEntry", methods=["GET"])
 def getJournalEntry():
     userid = request.form.get("userid")
@@ -229,6 +298,7 @@ def getJournalEntry():
     return entry
 
 
+@cross_origin
 @app.route("/api/journal/addEntry", methods=["POST"])
 def addJournalEntry():
     date = request.form.get("date")  # format must be yyyy-mm-dd
@@ -240,6 +310,21 @@ def addJournalEntry():
         (Journal.add_entry(userid, positive, grateful, notes, date))
         return 'Journal entry was added', 200
 
+    except Exception as e:
+        return str(e), 500
+
+##
+# Dashboard
+##
+
+
+@cross_origin
+@app.route("/api/dashboard/getScore", methods=["GET"])
+def getScore():
+    userid = request.form.get("userid")
+    try:
+        Dashboard.calcScore(userid)
+        return 'success', 200
     except Exception as e:
         return str(e), 500
 

@@ -31,8 +31,7 @@ class Activity(db.Model):
     def dailyActivityFeedback(id):
         user = UserData.getUser(id)
         if (user is None):
-            print("user not found")
-        recommendedActivity = 0
+            return Exception("user not found")
         age = user["age"]
         if 0 < age <= 4:
             recommendedActivity = 3
@@ -42,26 +41,31 @@ class Activity(db.Model):
             recommendedActivity = 2.5
         entryToday = Activity.query.filter(Activity.userid == id,
                                            Activity.date == datetime.today().strftime('%Y-%m-%d')).first()
-        if (entryToday is None):
-            message = "You have not inputted active hours today."
-            result = -recommendedActivity
-        else:
+        noEntry = entryToday is None
+        activityToday = 0
+        # if (noEntry):
+        #     message = "You have not inputted active hours today."
+        # else:
+        if not noEntry:
             activityToday = entryToday.hours
-            print("activity today: " + str(activityToday))
-            result = activityToday - recommendedActivity
-            if result < 0:
-                message = "Today you were active for " + str(abs(result)) + \
-                    " less hours than the recommended amount. Try to do better tomorrow!"
-            elif result == 0:
-                message = "Good job! You reached the exact recommended number of active hours today!"
-            else:
-                message = "Good job! You were active for " + \
-                    str(result) + " more hours than the recommended amount."
+
+            # result = activityToday - recommendedActivity
+            # if result < 0:
+            #     message = "Today you were active for " + str(abs(result)) + \
+            #         " less hours than the recommended amount. Try to do better tomorrow!"
+            # elif result == 0:
+            #     message = "Good job! You reached the exact recommended number of active hours today!"
+            # else:
+            #     message = "Good job! You were active for " + \
+            #         str(result) + " more hours than the recommended amount."
         return {
-            'result': result,
-            'message': message,
-            'recommendation': "According to The WHO, your age group should try to reach " +
-            str(recommendedActivity) + " active hours a day."
+            # 'result': result,
+            'noEntry': noEntry,
+            # 'message': message,
+            'hours': activityToday,
+            'recommended_hours': recommendedActivity,
+            # 'recommendation': "According to The WHO, your age group should try to reach " +
+            # str(recommendedActivity) + " active hours a day."
         }
 
     def serialize(self):
